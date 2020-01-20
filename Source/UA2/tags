@@ -1,0 +1,166 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+$	.save.vim	/^normal! \$$/;"	m
+0	.autosave.vim	/^normal! 0$/;"	m
+0	.save.vim	/^normal! 0$/;"	m
+014|	.autosave.vim	/^normal! 014|$/;"	m
+014|	.save.vim	/^normal! 014|$/;"	m
+027|	.save.vim	/^normal! 027|$/;"	m
+03|	.autosave.vim	/^normal! 03|$/;"	m
+055|	.save.vim	/^normal! 055|$/;"	m
+073|	.save.vim	/^normal! 073|$/;"	m
+09|	.autosave.vim	/^normal! 09|$/;"	m
+AHostStation	HostStation.cpp	/^AHostStation::AHostStation()$/;"	f	class:AHostStation
+AHostStation	HostStation.h	/^class UA2_API AHostStation : public AVehicleBase$/;"	c	inherits:AVehicleBase
+AMyAIController	MyAIController.h	/^class UA2_API AMyAIController : public AAIController$/;"	c	inherits:AAIController
+ANormalTest	NormalTest.cpp	/^ANormalTest::ANormalTest()$/;"	f	class:ANormalTest
+ANormalTest	NormalTest.h	/^class UA2_API ANormalTest : public AActor$/;"	c	inherits:AActor
+ATankUnit	TankUnit.cpp	/^ATankUnit::ATankUnit()$/;"	f	class:ATankUnit
+ATankUnit	TankUnit.h	/^class UA2_API ATankUnit : public AVehicleBase$/;"	c	inherits:AVehicleBase
+AUA2GameModeBase	UA2GameModeBase.h	/^class UA2_API AUA2GameModeBase : public AGameModeBase$/;"	c	inherits:AGameModeBase
+AUAVehiclePlayerController	UAVehiclePlayerController.h	/^class UA2_API AUAVehiclePlayerController : public APlayerController$/;"	c	inherits:APlayerController
+AVehicleBase	VehicleBase.cpp	/^AVehicleBase::AVehicleBase()$/;"	f	class:AVehicleBase
+AVehicleBase	VehicleBase.h	/^class UA2_API AVehicleBase : public APawn$/;"	c	inherits:APawn
+AVehicleSpawnPoint	VehicleSpawnPoint.cpp	/^AVehicleSpawnPoint::AVehicleSpawnPoint()$/;"	f	class:AVehicleSpawnPoint
+AVehicleSpawnPoint	VehicleSpawnPoint.h	/^class UA2_API AVehicleSpawnPoint : public AActor$/;"	c	inherits:AActor
+AimTowards	TankUnit.cpp	/^void ATankUnit::AimTowards(FVector AimHere)$/;"	f	class:ATankUnit
+Aplayer_ball	player_ball.cpp	/^Aplayer_ball::Aplayer_ball()$/;"	f	class:Aplayer_ball
+Aplayer_ball	player_ball.h	/^class UA2_API Aplayer_ball : public APawn$/;"	c	inherits:APawn
+Awheel	wheel.cpp	/^Awheel::Awheel()$/;"	f	class:Awheel
+Awheel	wheel.h	/^class UA2_API Awheel : public AActor$/;"	c	inherits:AActor
+Barrel	TankUnit.h	/^        UStaticMeshComponent* Barrel = nullptr;$/;"	m	class:ATankUnit
+BeginPlay	CanSpawnUnits.cpp	/^void UCanSpawnUnits::BeginPlay()$/;"	f	class:UCanSpawnUnits
+BeginPlay	HostStation.cpp	/^void AHostStation::BeginPlay()$/;"	f	class:AHostStation
+BeginPlay	Movement.cpp	/^void UMovement::BeginPlay()$/;"	f	class:UMovement
+BeginPlay	NormalTest.cpp	/^void ANormalTest::BeginPlay()$/;"	f	class:ANormalTest
+BeginPlay	TankUnit.cpp	/^void ATankUnit::BeginPlay()$/;"	f	class:ATankUnit
+BeginPlay	VehicleBase.cpp	/^void AVehicleBase::BeginPlay()$/;"	f	class:AVehicleBase
+BeginPlay	VehicleSpawnPoint.cpp	/^void AVehicleSpawnPoint::BeginPlay()$/;"	f	class:AVehicleSpawnPoint
+BeginPlay	player_ball.cpp	/^void Aplayer_ball::BeginPlay()$/;"	f	class:Aplayer_ball
+BeginPlay	wheel.cpp	/^void Awheel::BeginPlay()$/;"	f	class:Awheel
+Body	player_ball.h	/^        UStaticMeshComponent* Body;$/;"	m	class:Aplayer_ball
+ControlWheels	TankUnit.cpp	/^TArray<float> ATankUnit::ControlWheels(float ForwardValue, float RightValue)$/;"	f	class:ATankUnit
+Cube	NormalTest.h	/^        UStaticMeshComponent* Cube=nullptr;$/;"	m	class:ANormalTest
+Cube	wheel.h	/^        UStaticMeshComponent* Cube = nullptr;$/;"	m	class:Awheel
+Direction	player_ball.h	/^        float Direction = 0;$/;"	m	class:Aplayer_ball
+DriveDirection	wheel.h	/^        float DriveDirection = 0;$/;"	m	class:Awheel
+DriveWheel	wheel.cpp	/^void Awheel::DriveWheel(float DriveSpeed)$/;"	f	class:Awheel
+FindComponents	TankUnit.cpp	/^void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase, UStaticMeshComponent* Barrel)$/;"	f	class:ATankUnit
+FindComponents	wheel.cpp	/^void Awheel::FindComponents(UStaticMeshComponent* Wheel, UStaticMeshComponent* Cube)$/;"	f	class:Awheel
+FindTarget	MyAIController.cpp	/^AActor* AMyAIController::FindTarget(ATankUnit *_ControllerPawn)$/;"	f	class:AMyAIController
+ForceMovement	player_ball.h	/^        float ForceMovement = 9999;$/;"	m	class:Aplayer_ball
+GetComponents	NormalTest.cpp	/^void ANormalTest::GetComponents(UStaticMeshComponent* Cube)$/;"	f	class:ANormalTest
+GetComponents	player_ball.cpp	/^void Aplayer_ball::GetComponents(UStaticMeshComponent* Body, UStaticMeshComponent* Wheel_LF, UStaticMeshComponent* Wheel_2, UStaticMeshComponent* Wheel_3, UStaticMeshComponent* Wheel_4)$/;"	f	class:Aplayer_ball
+GetTeam	VehicleBase.cpp	/^int32 AVehicleBase::GetTeam()$/;"	f	class:AVehicleBase
+HandleLeftMouseClick	HostStation.cpp	/^void AHostStation::HandleLeftMouseClick()$/;"	f	class:AHostStation
+HandleLeftMouseClick	TankUnit.cpp	/^void ATankUnit::HandleLeftMouseClick()$/;"	f	class:ATankUnit
+MoveForce	Movement.cpp	/^void UMovement::MoveForce()$/;"	f	class:UMovement
+MoveForward	player_ball.cpp	/^void Aplayer_ball::MoveForward(float Value)$/;"	f	class:Aplayer_ball
+MovingVehicle_BP	TankUnit.h	/^        TSubclassOf<ATankUnit> MovingVehicle_BP;$/;"	m	class:ATankUnit
+PossessPawn	TankUnit.cpp	/^void ATankUnit::PossessPawn(int32 PawnNumber)$/;"	f	class:ATankUnit
+PrintActors	TankUnit.cpp	/^void ATankUnit::PrintActors(TArray<AActor*> ActorArray)$/;"	f	class:ATankUnit
+ProjectileBluePrint	TankUnit.h	/^        TSubclassOf<AActor> ProjectileBluePrint;$/;"	m	class:ATankUnit
+RememberAIController	VehicleBase.cpp	/^void AVehicleBase::RememberAIController(AMyAIController* _ThisAiController)$/;"	f	class:AVehicleBase
+Reposess	TankUnit.cpp	/^void ATankUnit::Reposess()$/;"	f	class:ATankUnit
+SessionLoad	.autosave.vim	/^let SessionLoad = 1$/;"	v
+SessionLoad	.save.vim	/^let SessionLoad = 1$/;"	v
+SetTeam	VehicleBase.cpp	/^void AVehicleBase::SetTeam(int32 Team)$/;"	f	class:AVehicleBase
+SetupPlayerInputComponent	HostStation.cpp	/^void AHostStation::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)$/;"	f	class:AHostStation
+SetupPlayerInputComponent	TankUnit.cpp	/^void ATankUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)$/;"	f	class:ATankUnit
+SetupPlayerInputComponent	VehicleBase.cpp	/^void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)$/;"	f	class:AVehicleBase
+SetupPlayerInputComponent	player_ball.cpp	/^void Aplayer_ball::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)$/;"	f	class:Aplayer_ball
+Spawn	VehicleSpawnPoint.cpp	/^void AVehicleSpawnPoint::Spawn()$/;"	f	class:AVehicleSpawnPoint
+SpawnThingAtLocation	CanSpawnUnits.cpp	/^void UCanSpawnUnits::SpawnThingAtLocation()$/;"	f	class:UCanSpawnUnits
+SwitchPawn	TankUnit.cpp	/^void ATankUnit::SwitchPawn()$/;"	f	class:ATankUnit
+TankUnitBP	CanSpawnUnits.h	/^        TSubclassOf<ATankUnit> TankUnitBP;$/;"	m	class:UCanSpawnUnits
+Team	VehicleBase.h	/^        int32 Team=999;$/;"	m	class:AVehicleBase
+Team	VehicleSpawnPoint.h	/^        int32 Team;$/;"	m	class:AVehicleSpawnPoint
+ThisAIController	TankUnit.h	/^        AMyAIController* ThisAIController=nullptr;$/;"	m	class:ATankUnit
+ThisAIController	VehicleBase.h	/^        AMyAIController* ThisAIController=nullptr;$/;"	m	class:AVehicleBase
+Tick	HostStation.cpp	/^void AHostStation::Tick(float DeltaTime)$/;"	f	class:AHostStation
+Tick	MyAIController.cpp	/^void AMyAIController::Tick(float DeltaTime)$/;"	f	class:AMyAIController
+Tick	NormalTest.cpp	/^void ANormalTest::Tick(float DeltaTime)$/;"	f	class:ANormalTest
+Tick	TankUnit.cpp	/^void ATankUnit::Tick(float DeltaTime)$/;"	f	class:ATankUnit
+Tick	UAVehiclePlayerController.cpp	/^void AUAVehiclePlayerController::Tick(float DeltaTime)$/;"	f	class:AUAVehiclePlayerController
+Tick	VehicleBase.cpp	/^void AVehicleBase::Tick(float DeltaTime)$/;"	f	class:AVehicleBase
+Tick	VehicleSpawnPoint.cpp	/^void AVehicleSpawnPoint::Tick(float DeltaTime)$/;"	f	class:AVehicleSpawnPoint
+Tick	player_ball.cpp	/^void Aplayer_ball::Tick(float DeltaTime)$/;"	f	class:Aplayer_ball
+Tick	wheel.cpp	/^void Awheel::Tick(float DeltaTime)$/;"	f	class:Awheel
+TickComponent	CanSpawnUnits.cpp	/^void UCanSpawnUnits::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)$/;"	f	class:UCanSpawnUnits
+TickComponent	Movement.cpp	/^void UMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)$/;"	f	class:UMovement
+ToggleMouseCursor	UAVehiclePlayerController.cpp	/^int AUAVehiclePlayerController::ToggleMouseCursor()$/;"	f	class:AUAVehiclePlayerController
+TorqueScalar	wheel.h	/^        float TorqueScalar = 100;$/;"	m	class:Awheel
+TurretBase	TankUnit.h	/^        UStaticMeshComponent* TurretBase = nullptr;$/;"	m	class:ATankUnit
+UA2	UA2.Build.cs	/^	public UA2(ReadOnlyTargetRules Target) : base(Target)$/;"	m	class:UA2
+UA2	UA2.Build.cs	/^public class UA2 : ModuleRules$/;"	c	inherits:ModuleRules
+UCanSpawnUnits	CanSpawnUnits.cpp	/^UCanSpawnUnits::UCanSpawnUnits()$/;"	f	class:UCanSpawnUnits
+UCanSpawnUnits	CanSpawnUnits.h	/^class UA2_API UCanSpawnUnits : public UActorComponent$/;"	c	inherits:UActorComponent
+UMovement	Movement.cpp	/^UMovement::UMovement()$/;"	f	class:UMovement
+UMovement	Movement.h	/^class UA2_API UMovement : public UActorComponent$/;"	c	inherits:UActorComponent
+VehicleToSpawn	VehicleSpawnPoint.h	/^        TSubclassOf<AVehicleBase> VehicleToSpawn;$/;"	m	class:AVehicleSpawnPoint
+Wheel	wheel.h	/^        UStaticMeshComponent* Wheel = nullptr;$/;"	m	class:Awheel
+Wheel_2	player_ball.h	/^        UStaticMeshComponent* Wheel_2;$/;"	m	class:Aplayer_ball
+Wheel_3	player_ball.h	/^        UStaticMeshComponent* Wheel_3;$/;"	m	class:Aplayer_ball
+Wheel_4	player_ball.h	/^        UStaticMeshComponent* Wheel_4;$/;"	m	class:Aplayer_ball
+Wheel_LF	player_ball.h	/^        UStaticMeshComponent* Wheel_LF;$/;"	m	class:Aplayer_ball
+body	Movement.h	/^        UStaticMeshComponent* body = nullptr;$/;"	m	class:UMovement
+initialize	Movement.cpp	/^void UMovement::initialize(UStaticMeshComponent* body)$/;"	f	class:UMovement
+override	CanSpawnUnits.h	/^	virtual void BeginPlay() override;$/;"	m	class:UCanSpawnUnits
+override	CanSpawnUnits.h	/^	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;$/;"	m	class:UCanSpawnUnits
+override	HostStation.h	/^	virtual void BeginPlay() override;$/;"	m	class:AHostStation
+override	HostStation.h	/^	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;$/;"	m	class:AHostStation
+override	HostStation.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AHostStation
+override	Movement.h	/^	virtual void BeginPlay() override;$/;"	m	class:UMovement
+override	Movement.h	/^	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;$/;"	m	class:UMovement
+override	MyAIController.h	/^        virtual void Tick(float DeltaTime) override;$/;"	m	class:AMyAIController
+override	NormalTest.h	/^	virtual void BeginPlay() override;$/;"	m	class:ANormalTest
+override	NormalTest.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ANormalTest
+override	TankUnit.h	/^	virtual void BeginPlay() override;$/;"	m	class:ATankUnit
+override	TankUnit.h	/^	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;$/;"	m	class:ATankUnit
+override	TankUnit.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ATankUnit
+override	UAVehiclePlayerController.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AUAVehiclePlayerController
+override	VehicleBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:AVehicleBase
+override	VehicleBase.h	/^	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;$/;"	m	class:AVehicleBase
+override	VehicleBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AVehicleBase
+override	VehicleSpawnPoint.h	/^	virtual void BeginPlay() override;$/;"	m	class:AVehicleSpawnPoint
+override	VehicleSpawnPoint.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AVehicleSpawnPoint
+override	player_ball.h	/^	virtual void BeginPlay() override;$/;"	m	class:Aplayer_ball
+override	player_ball.h	/^	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;$/;"	m	class:Aplayer_ball
+override	player_ball.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:Aplayer_ball
+override	wheel.h	/^	virtual void BeginPlay() override;$/;"	m	class:Awheel
+override	wheel.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:Awheel
+s:l	.autosave.vim	/^let s:l = 1 - ((0 * winheight(0) + 10) \/ 20)$/;"	v
+s:l	.autosave.vim	/^let s:l = 1 - ((0 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 178 - ((9 * winheight(0) + 12) \/ 25)$/;"	v
+s:l	.autosave.vim	/^let s:l = 208 - ((21 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 298 - ((61 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 3 - ((2 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 38 - ((9 * winheight(0) + 7) \/ 15)$/;"	v
+s:l	.autosave.vim	/^let s:l = 40 - ((35 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 41 - ((20 * winheight(0) + 18) \/ 37)$/;"	v
+s:l	.autosave.vim	/^let s:l = 41 - ((37 * winheight(0) + 28) \/ 57)$/;"	v
+s:l	.autosave.vim	/^let s:l = 44 - ((33 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.autosave.vim	/^let s:l = 46 - ((10 * winheight(0) + 7) \/ 15)$/;"	v
+s:l	.autosave.vim	/^let s:l = 63 - ((40 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.save.vim	/^let s:l = 23 - ((22 * winheight(0) + 15) \/ 31)$/;"	v
+s:l	.save.vim	/^let s:l = 38 - ((10 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.save.vim	/^let s:l = 40 - ((21 * winheight(0) + 15) \/ 31)$/;"	v
+s:l	.save.vim	/^let s:l = 45 - ((14 * winheight(0) + 15) \/ 30)$/;"	v
+s:l	.save.vim	/^let s:l = 83 - ((24 * winheight(0) + 15) \/ 30)$/;"	v
+s:l	.save.vim	/^let s:l = 89 - ((61 * winheight(0) + 31) \/ 62)$/;"	v
+s:l	.save.vim	/^let s:l = 97 - ((26 * winheight(0) + 31) \/ 62)$/;"	v
+s:so_save	.autosave.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:so_save	.save.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:sx	.autosave.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:sx	.save.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:wipebuf	.autosave.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
+s:wipebuf	.save.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
+wheel_pitch	player_ball.h	/^        float wheel_pitch = 0;$/;"	m	class:Aplayer_ball
+zo	.autosave.vim	/^normal! zo$/;"	m
+zo	.save.vim	/^normal! zo$/;"	m
+zt	.autosave.vim	/^normal! zt$/;"	m
+zt	.save.vim	/^normal! zt$/;"	m
