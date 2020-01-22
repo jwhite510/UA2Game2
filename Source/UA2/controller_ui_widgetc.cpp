@@ -6,33 +6,21 @@
 
 
 
-void Ucontroller_ui_widgetc::Magic(float AnchorX, float AnchorY, float ViewPortSizeX, float ViewPortSizeY, float SPositionX, float SPositionY, FVector2D MouseScreenPosition)
+void Ucontroller_ui_widgetc::Magic(FVector2D Anchor, FVector2D ViewPortSize, FVector2D SPosition, FVector2D MouseScreenPosition, FVector2D MapSize)
 {
   UE_LOG(LogTemp, Warning, TEXT("Magic called"));
 
 
   // position of anchor in local coordinates
-  float Anch_local_x = ViewPortSizeX*AnchorX;
-  float Anch_local_y = ViewPortSizeY*AnchorY;
+  FVector2D Anch_local = ViewPortSize*Anchor;
+  // float Anch_local_y = ViewPortSize.Y*Anchor.Y;
 
-  float WidgetposY = SPositionY + Anch_local_y;
-  float WidgetposX = SPositionX + Anch_local_x;
+  FVector2D Widgetpos = SPosition + Anch_local;
 
-  UE_LOG(LogTemp, Warning, TEXT("ViewPortSizeX: %f"), ViewPortSizeX);
-  UE_LOG(LogTemp, Warning, TEXT("ViewPortSizeY: %f"), ViewPortSizeY);
+  FVector2D WidgetLocation = (MouseScreenPosition - Widgetpos) / MapSize;
 
-  UE_LOG(LogTemp, Warning, TEXT("MouseScreenPosition.X: %f"), MouseScreenPosition.X);
-  UE_LOG(LogTemp, Warning, TEXT("MouseScreenPosition.Y: %f"), MouseScreenPosition.Y);
+  UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
 
-
-  UE_LOG(LogTemp, Warning, TEXT("SPositionX: %f"), SPositionX);
-  UE_LOG(LogTemp, Warning, TEXT("SPositionY: %f"), SPositionY);
-
-  UE_LOG(LogTemp, Warning, TEXT("Anch_local_y: %f"), Anch_local_y);
-  UE_LOG(LogTemp, Warning, TEXT("Anch_local_x: %f"), Anch_local_x);
-
-  UE_LOG(LogTemp, Warning, TEXT("WidgetposY: %f"), WidgetposY);
-  UE_LOG(LogTemp, Warning, TEXT("WidgetposX: %f"), WidgetposX);
 
 }
 

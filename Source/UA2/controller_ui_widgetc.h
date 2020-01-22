@@ -16,6 +16,6 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
 
   public:
         UFUNCTION(BluePrintCallable, Category="MapControl")
-        void Magic(float AnchorX, float AnchorY, float ViewPortSizeX, float ViewPortSizeY, float SPositionX, float SPositionY, FVector2D MouseScreenPosition);
+        void Magic(FVector2D Anchor, FVector2D ViewPortSize, FVector2D SPosition, FVector2D MouseScreenPosition, FVector2D MapSize);
 	
 };
