@@ -6,6 +6,7 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "HostStation.h"
 
 
@@ -17,8 +18,9 @@ void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
   OriginalClickPosition = GetPositionOnMap(CanvaSslot);
   RefCanvasSlot = CanvaSslot;
   // set mouse draggint to true
-  IsMouseDragging = 1;
-  // find the camera
+  IsMouseDown = 1;
+  // get current time
+  InitialClickTime = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
 
   // find target
   TArray<AActor*> ActorsWithTag;
@@ -32,31 +34,36 @@ void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
 }
 void Ucontroller_ui_widgetc::Call_On_Tick()
 {
-  if ( IsMouseDragging )
+  if ( IsMouseDown )
   {
-    if(RefCanvasSlot!=nullptr)
+    float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+    float TimeMouseHeld = TimeNow - InitialClickTime;
+    // UE_LOG(LogTemp, Warning, TEXT("TimeMouseHeld: %f"), TimeMouseHeld);
+    if(TimeMouseHeld > 0.1)
     {
-      FVector2D WidgetLocation = GetPositionOnMap(RefCanvasSlot);
-      FVector2D MouseMovement = WidgetLocation - OriginalClickPosition;
+      IsMouseDragging = 1;
+      // move player camera
+      if(RefCanvasSlot!=nullptr)
+      {
+        FVector2D WidgetLocation = GetPositionOnMap(RefCanvasSlot);
+        FVector2D MouseMovement = WidgetLocation - OriginalClickPosition;
 
-      UE_LOG(LogTemp, Warning, TEXT("MouseMovement: %s"), *MouseMovement.ToString());
-      FVector CurrentCameraPosition = OriginalCameraPosition;
+        // UE_LOG(LogTemp, Warning, TEXT("MouseMovement: %s"), *MouseMovement.ToString());
+        FVector CurrentCameraPosition = OriginalCameraPosition;
 
-      // add movement to camera position
-      CurrentCameraPosition.Y -= 6000*MouseMovement.X;
-      CurrentCameraPosition.X += 6000*MouseMovement.Y;
+        // add movement to camera position
+        CurrentCameraPosition.Y -= 6000*MouseMovement.X;
+        CurrentCameraPosition.X += 6000*MouseMovement.Y;
 
-      PlayerCamera->SetActorLocation(
-         CurrentCameraPosition
-         );
+        PlayerCamera->SetActorLocation(
+           CurrentCameraPosition
+           );
 
-      // UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
-      // UE_LOG(LogTemp, Warning, TEXT("OriginalMouseClick: %s"), *OriginalClickPosition.ToString());
-
+        // UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
+        // UE_LOG(LogTemp, Warning, TEXT("OriginalMouseClick: %s"), *OriginalClickPosition.ToString());
+      }
     }
   }
-
-
   // make the spawn cursor follow mouse
   // UE_LOG(LogTemp, Warning, TEXT("on tick running"));
   UCanvasPanelSlot* Ucs = Cast<UCanvasPanelSlot>(SpawnUnitsCursorCC->Slot);
@@ -67,8 +74,16 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
 }
 void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 {
-  UE_LOG(LogTemp, Warning, TEXT("mouse up called"));
-  IsMouseDragging = 0;
+
+  if(IsMouseDragging==0)
+  {
+    UE_LOG(LogTemp, Warning, TEXT("mouse clicked (not dragged)"));
+  }
+
+
+  // UE_LOG(LogTemp, Warning, TEXT("mouse up called"));
+  IsMouseDown = 0;
+  IsMouseDragging=0;
 }
 FVector2D Ucontroller_ui_widgetc::GetPositionOnMap(UCanvasPanelSlot* CanvaSslot)
 {

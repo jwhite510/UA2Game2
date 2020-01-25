@@ -44,6 +44,8 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
 
   private:
         bool IsMouseDragging = 0;
+        bool IsMouseDown = 0;
+        float InitialClickTime;
 
 
 
