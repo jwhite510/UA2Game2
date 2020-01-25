@@ -3,7 +3,9 @@
 
 #include "UAVehiclePlayerController.h"
 #include "DrawDebugHelpers.h"
+#include "Runtime/UMG/Public/Components/Widget.h"
 #include "TankUnit.h"
+#include "HostStation.h"
 
 
 
@@ -65,6 +67,26 @@ void AUAVehiclePlayerController::Tick(float DeltaTime)
 
 
         
+
+
+}
+void AUAVehiclePlayerController::SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnitButton)
+{
+
+  // is it a tank?
+  ATankUnit* NewPawnTank = Cast<ATankUnit>(NewPawn);
+
+  // is is a HostStation
+  AHostStation* NewPawnHostStation = Cast<AHostStation>(NewPawn);
+  if(NewPawnHostStation!=nullptr)
+  {
+    SpawnUnitButton->SetVisibility(ESlateVisibility::Visible);
+  }
+  else
+  {
+    SpawnUnitButton->SetVisibility(ESlateVisibility::Hidden);
+  }
+
 
 
 }

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "UAVehiclePlayerController.generated.h"
-
+class UWidget;
 /**
  *
  */
@@ -27,7 +27,8 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
 
 	virtual void Tick(float DeltaTime) override;
 
-
+        UFUNCTION(BluePrintCallable, Category="pawn")
+        void SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnitButton);
 
 
 };
