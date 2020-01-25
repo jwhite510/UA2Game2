@@ -214,14 +214,14 @@ void ATankUnit::AimTowards(FVector AimHere)
 
 }
 
-void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase, UStaticMeshComponent* Barrel, Awheel* FrontRightWheel, Awheel* FrontLeftWheel, Awheel* BackRightWheel, Awheel* BackLeftWheel)
+void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in, Awheel* FrontRightWheel_in, Awheel* FrontLeftWheel_in, Awheel* BackRightWheel_in, Awheel* BackLeftWheel_in)
 {
-  this->TurretBase = TurretBase;
-  this->Barrel = Barrel;
-  this->FrontRightWheel = FrontRightWheel;
-  this->FrontLeftWheel = FrontLeftWheel;
-  this->BackRightWheel = BackRightWheel;
-  this->BackLeftWheel = BackLeftWheel;
+  this->TurretBase = TurretBase_in;
+  this->Barrel = Barrel_in;
+  this->FrontRightWheel = FrontRightWheel_in;
+  this->FrontLeftWheel = FrontLeftWheel_in;
+  this->BackRightWheel = BackRightWheel_in;
+  this->BackLeftWheel = BackLeftWheel_in;
 }
 void ATankUnit::HandleLeftMouseClick()
 {

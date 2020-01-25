@@ -70,7 +70,7 @@ void UUA2navcomponent_ground_vehicle::RequestDirectMove(const FVector& MoveVeloc
 
 
 }
-void UUA2navcomponent_ground_vehicle::FindActor(AVehicleBase* ThisVehicle)
+void UUA2navcomponent_ground_vehicle::FindActor(AVehicleBase* ThisVehicle_in)
 {
-  this->ThisVehicle = ThisVehicle;
+  this->ThisVehicle = ThisVehicle_in;
 }
