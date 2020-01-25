@@ -6,6 +6,7 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "HostStation.h"
 
 
 
@@ -54,6 +55,15 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
 
     }
   }
+
+
+  // make the spawn cursor follow mouse
+  // UE_LOG(LogTemp, Warning, TEXT("on tick running"));
+  UCanvasPanelSlot* Ucs = Cast<UCanvasPanelSlot>(SpawnUnitsCursorCC->Slot);
+  // move
+  FVector2D MouseScreenPositionIn = GetActualMousePosition();
+  Ucs->SetPosition(MouseScreenPositionIn);
+
 }
 void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 {
@@ -95,4 +105,34 @@ FVector2D Ucontroller_ui_widgetc::GetPositionOnMap(UCanvasPanelSlot* CanvaSslot)
   // gets the current location on the map (normalized)
 
   return ((MouseScreenPositionIn - Widgetpos) / MapSizeIn)-0.5;
+}
+
+void Ucontroller_ui_widgetc::SpawnUnitsButtonClicked()
+{
+  // mouse invisible
+  APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+  AHostStation* PawnHostStation = Cast<AHostStation>(PlayerController->GetPawn());
+  if(PawnHostStation!=nullptr)
+  {
+    if(PawnHostStation->SpawnState==0)
+    {
+      SpawnUnitsCursorCC->SetVisibility(ESlateVisibility::Visible);
+      PawnHostStation->SpawnState = 1;
+    }
+  }
+}
+FVector2D Ucontroller_ui_widgetc::GetActualMousePosition()
+{
+  // get mouse position
+  APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+  // get viewport scale
+  float viewport_scale = UWidgetLayoutLibrary::GetViewportScale(GetWorld());
+
+  // get mouse position of player
+  float LocationX;
+  float LocationY;
+  PlayerController->GetMousePosition(LocationX, LocationY);
+  FVector2D MouseScreenPositionIn(LocationX, LocationY);
+  MouseScreenPositionIn = MouseScreenPositionIn / viewport_scale;
+  return MouseScreenPositionIn;
 }

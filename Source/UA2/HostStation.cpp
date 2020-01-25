@@ -28,15 +28,13 @@ void AHostStation::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 }
 void AHostStation::HandleLeftMouseClick()
 {
-  APlayerController* ThePlayerController = Cast<APlayerController>(GetController());
+  // APlayerController* ThePlayerController = Cast<APlayerController>(GetController());
   // if the mouse cursow is shown
-  if(ThePlayerController->bShowMouseCursor)
+  if(SpawnState)
   {
-    UE_LOG(LogTemp, Warning, TEXT("FindComponentByClass called"));
     // ComponentSpawnThing();
     UCanSpawnUnits* SpawnUnitsComponent = FindComponentByClass<UCanSpawnUnits>();
     SpawnUnitsComponent->SpawnThingAtLocation();
-
 
   }
 }

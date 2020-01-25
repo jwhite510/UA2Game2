@@ -6,6 +6,7 @@
 #include "Runtime/UMG/Public/Components/Widget.h"
 #include "TankUnit.h"
 #include "HostStation.h"
+#include "controller_ui_widgetc.h"
 
 
 
@@ -16,6 +17,14 @@ int AUAVehiclePlayerController::ToggleMouseCursor()
   if (bShowMouseCursor == 1)
   {
     bShowMouseCursor = 0;
+    // if pawn is a host station, disable spawn mode
+    AHostStation* PawnHostStation = Cast<AHostStation>(GetPawn());
+    if(PawnHostStation!=nullptr)
+    {
+      PawnHostStation->SpawnState=0;
+      // hide spawn icon
+      ControllerUIWidget->SpawnUnitsCursorCC->SetVisibility(ESlateVisibility::Hidden);
+    }
     Set_Game_only();
   }
   else{

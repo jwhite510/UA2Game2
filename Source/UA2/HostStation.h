@@ -36,4 +36,6 @@ public:
         UFUNCTION(BluePrintImplementableEvent, Category="UI Mode")
         void ComponentSpawnThing();
 
+        bool SpawnState=0;
+
 };

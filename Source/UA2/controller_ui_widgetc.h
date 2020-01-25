@@ -31,6 +31,15 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         AActor* PlayerCamera = nullptr;
         FVector OriginalCameraPosition;
 
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=AnchorData)
+        UWidget* SpawnUnitsCursorCC;
+
+        UFUNCTION(BluePrintCallable, Category="Clicked")
+        void SpawnUnitsButtonClicked();
+
+        FVector2D GetActualMousePosition();
+
+
 
 
   private:

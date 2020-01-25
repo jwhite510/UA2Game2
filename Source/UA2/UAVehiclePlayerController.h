@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "UAVehiclePlayerController.generated.h"
 class UWidget;
+class Ucontroller_ui_widgetc;
 /**
  *
  */
@@ -30,5 +31,8 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
         UFUNCTION(BluePrintCallable, Category="pawn")
         void SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnitButton);
 
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=AnchorData)
+        Ucontroller_ui_widgetc* ControllerUIWidget;
 
 };
