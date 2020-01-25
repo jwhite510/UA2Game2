@@ -28,6 +28,11 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         FVector2D OriginalClickPosition;
         UCanvasPanelSlot* RefCanvasSlot = nullptr;
 
+        AActor* PlayerCamera = nullptr;
+        FVector OriginalCameraPosition;
+
+
+
   private:
         bool IsMouseDragging = 0;
 

@@ -17,8 +17,17 @@ void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
   RefCanvasSlot = CanvaSslot;
   // set mouse draggint to true
   IsMouseDragging = 1;
+  // find the camera
 
-
+  // find target
+  TArray<AActor*> ActorsWithTag;
+  UGameplayStatics::GetAllActorsWithTag(
+      GetWorld(),
+      FName("PlayerCamera"),
+      ActorsWithTag
+      );
+  PlayerCamera = ActorsWithTag[0];
+  OriginalCameraPosition = PlayerCamera->GetActorLocation();
 }
 void Ucontroller_ui_widgetc::Call_On_Tick()
 {
@@ -27,8 +36,21 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
     if(RefCanvasSlot!=nullptr)
     {
       FVector2D WidgetLocation = GetPositionOnMap(RefCanvasSlot);
-      UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
-      UE_LOG(LogTemp, Warning, TEXT("OriginalMouseClick: %s"), *OriginalClickPosition.ToString());
+      FVector2D MouseMovement = WidgetLocation - OriginalClickPosition;
+
+      UE_LOG(LogTemp, Warning, TEXT("MouseMovement: %s"), *MouseMovement.ToString());
+      FVector CurrentCameraPosition = OriginalCameraPosition;
+
+      // add movement to camera position
+      CurrentCameraPosition.Y -= 6000*MouseMovement.X;
+      CurrentCameraPosition.X += 6000*MouseMovement.Y;
+
+      PlayerCamera->SetActorLocation(
+         CurrentCameraPosition
+         );
+
+      // UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
+      // UE_LOG(LogTemp, Warning, TEXT("OriginalMouseClick: %s"), *OriginalClickPosition.ToString());
 
     }
   }
