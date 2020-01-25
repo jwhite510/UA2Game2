@@ -24,6 +24,10 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         UFUNCTION(BluePrintCallable, Category="MapControl")
         void C_Mouse_Button_Up();
 
+        FVector2D GetPositionOnMap(UCanvasPanelSlot* CanvaSslot);
+        FVector2D OriginalClickPosition;
+        UCanvasPanelSlot* RefCanvasSlot = nullptr;
+
   private:
         bool IsMouseDragging = 0;
 
