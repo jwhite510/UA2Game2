@@ -12,7 +12,6 @@
 
 void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
 {
-
   // get player controller
   APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
@@ -50,7 +49,19 @@ void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
 
   UE_LOG(LogTemp, Warning, TEXT("WidgetLocation: %s"), *WidgetLocation.ToString());
 
+  // set mouse draggint to true
+  IsMouseDragging = 1;
+
 
 }
-
-
+void Ucontroller_ui_widgetc::Call_On_Tick()
+{
+  if ( IsMouseDragging )
+  {
+    // UE_LOG(LogTemp, Warning, TEXT("mouse is dragging"));
+  }
+}
+void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
+{
+  UE_LOG(LogTemp, Warning, TEXT("mouse up called"));
+}
