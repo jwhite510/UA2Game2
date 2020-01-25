@@ -8,6 +8,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "HostStation.h"
+#include "DrawDebugHelpers.h"
 
 
 
@@ -78,6 +79,40 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
   if(IsMouseDragging==0)
   {
     UE_LOG(LogTemp, Warning, TEXT("mouse clicked (not dragged)"));
+    UE_LOG(LogTemp, Warning, TEXT("GetPositionOnMap"));
+    if(RefCanvasSlot!=nullptr)
+    {
+
+      // ortho width of camera:
+      float OrthoWidth = 5000.0;
+
+      FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
+      UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
+
+
+      FVector WorldMapClickLocationFV;
+      WorldMapClickLocationFV.X = -WorldMapClickLocation.Y;
+      WorldMapClickLocationFV.Y = WorldMapClickLocation.X;
+      WorldMapClickLocationFV.Z = 0;
+
+      FVector WorldClickLocation = WorldMapClickLocationFV+OriginalCameraPosition;
+
+
+      // draw line
+      DrawDebugLine(
+          GetWorld(),
+          WorldClickLocation,
+          WorldClickLocation+FVector(0,0,-10000000),
+          // 100*(CurrentLocation+ForwardVec),
+          FColor(255,0,0), // color
+          true, //persitent
+          1.,// lifetime
+          2,// depth priority
+          20 // thickness
+          );
+
+    }
+
   }
 
 
