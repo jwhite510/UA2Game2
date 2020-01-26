@@ -10,11 +10,11 @@
 #include "HostStation.h"
 #include "DrawDebugHelpers.h"
 #include "WorldClickedLocation.h"
+#include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 
 
 
-
-void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
+void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot, FString ButtonName)
 {
 
   OriginalClickPosition = GetPositionOnMap(CanvaSslot);
@@ -33,6 +33,7 @@ void Ucontroller_ui_widgetc::Magic(UCanvasPanelSlot* CanvaSslot)
       );
   PlayerCamera = ActorsWithTag[0];
   OriginalCameraPosition = PlayerCamera->GetActorLocation();
+  this->ButtonClicked = ButtonName;
 }
 void Ucontroller_ui_widgetc::Call_On_Tick()
 {
@@ -79,86 +80,81 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 
   if(IsMouseDragging==0)
   {
-    // UE_LOG(LogTemp, Warning, TEXT("mouse clicked (not dragged)"));
-    // UE_LOG(LogTemp, Warning, TEXT("GetPositionOnMap"));
     if(RefCanvasSlot!=nullptr)
     {
-
-      // ortho width of camera:
-      float OrthoWidth = 5000.0;
-
-      FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
-      // UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
-
-
-      FVector WorldMapClickLocationFV;
-      WorldMapClickLocationFV.X = -WorldMapClickLocation.Y;
-      WorldMapClickLocationFV.Y = WorldMapClickLocation.X;
-      WorldMapClickLocationFV.Z = 0;
-
-      FVector WorldClickLocation = WorldMapClickLocationFV+OriginalCameraPosition;
-
-
-      // draw line
-      // DrawDebugLine(
-          // GetWorld(),
-          // WorldClickLocation,
-          // WorldClickLocation+FVector(0,0,-10000000),
-          // // 100*(CurrentLocation+ForwardVec),
-          // FColor(255,0,0), // color
-          // true, //persitent
-          // 1.,// lifetime
-          // 2,// depth priority
-          // 20 // thickness
-          // );
-
-      // UE_LOG(LogTemp, Warning, TEXT("making LineTraceSingleByChannel"));
-      // make line trace
-      FHitResult HitResult;
-      FVector StartLocation;
-      FVector EndLocation;
-      bool HitSomething = GetWorld()->LineTraceSingleByChannel(
-          HitResult, // Out hit
-          // StartLocation, // start
-          // EndLocation, // end
-          WorldClickLocation, // start
-          WorldClickLocation+FVector(0,0,-10000000), // end
-          ECollisionChannel::ECC_Visibility);
-      // try to print actor
-      if(HitResult.GetActor()!=nullptr)
+      if(ButtonClicked=="Left Mouse button")
       {
-        UE_LOG(LogTemp, Warning, TEXT("hit actor:%s"), *HitResult.GetActor()->GetName());
+        // ortho width of camera:
+        float OrthoWidth = 5000.0;
+
+        FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
+        // UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
+
+
+        FVector WorldMapClickLocationFV;
+        WorldMapClickLocationFV.X = -WorldMapClickLocation.Y;
+        WorldMapClickLocationFV.Y = WorldMapClickLocation.X;
+        WorldMapClickLocationFV.Z = 0;
+
+        FVector WorldClickLocation = WorldMapClickLocationFV+OriginalCameraPosition;
+
+        // UE_LOG(LogTemp, Warning, TEXT("making LineTraceSingleByChannel"));
+        // make line trace
+        FHitResult HitResult;
+        FVector StartLocation;
+        FVector EndLocation;
+        bool HitSomething = GetWorld()->LineTraceSingleByChannel(
+            HitResult, // Out hit
+            // StartLocation, // start
+            // EndLocation, // end
+            WorldClickLocation, // start
+            WorldClickLocation+FVector(0,0,-10000000), // end
+            ECollisionChannel::ECC_Visibility);
+        // try to print actor
+        if(HitResult.GetActor()!=nullptr)
+        {
+          UE_LOG(LogTemp, Warning, TEXT("hit actor:%s"), *HitResult.GetActor()->GetName());
+        }
+
+        // draw sphere at hit location
+        DrawDebugSphere(
+            GetWorld(),
+            HitResult.Location,
+            500, // radius
+            20, // segments
+            FColor(0,255,0), // color
+            1 // persistent lines
+            );
+
+        // spawn an actor at this location, search for nearest actors that are vehicles
+        AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
+            AWorldClickedLocation::StaticClass(),
+            HitResult.Location,
+            FRotator(0,0,0)
+            );
+        UE_LOG(LogTemp, Warning, TEXT("HitResult.Location:%s"), *HitResult.Location.ToString());
+        AWorldClickedLocation* SpawnedWorldClickL = Cast<AWorldClickedLocation>(SpawnedWorldClickLActor);
+        AActor* FoundActor =  SpawnedWorldClickL->FindNearestActor();
+        if(FoundActor!=nullptr)
+        {
+          FoundActor->GetName();
+          UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
+          // set variable
+          SelectedVehicleName = FoundActor->GetName();
+          SelectedVehicle = Cast<AVehicleBase>(FoundActor);
+
+        }
+        UE_LOG(LogTemp, Warning, TEXT("destroy actor called"));
+        SpawnedWorldClickL->Destroy();
       }
-
-      // draw sphere at hit location
-      DrawDebugSphere(
-          GetWorld(),
-          HitResult.Location,
-          500, // radius
-          20, // segments
-          FColor(0,255,0), // color
-          1 // persistent lines
-          );
-
-      // spawn an actor at this location, search for nearest actors that are vehicles
-      AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
-          AWorldClickedLocation::StaticClass(),
-          HitResult.Location,
-          FRotator(0,0,0)
-          );
-      UE_LOG(LogTemp, Warning, TEXT("HitResult.Location:%s"), *HitResult.Location.ToString());
-      AWorldClickedLocation* SpawnedWorldClickL = Cast<AWorldClickedLocation>(SpawnedWorldClickLActor);
-      AActor* FoundActor =  SpawnedWorldClickL->FindNearestActor();
-      if(FoundActor!=nullptr)
+      else if (ButtonClicked=="Right Mouse button")
       {
-        FoundActor->GetName();
-        UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
-
+        UE_LOG(LogTemp, Warning, TEXT("send move command to unit"));
+        if(SelectedVehicle!=nullptr)
+        {
+          UE_LOG(LogTemp, Warning, TEXT("%s"), *SelectedVehicle->GetName());
+        }
       }
-      UE_LOG(LogTemp, Warning, TEXT("destroy actor called"));
-      SpawnedWorldClickL->Destroy();
-
-
     }
 
   }

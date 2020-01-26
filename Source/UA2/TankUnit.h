@@ -16,6 +16,7 @@
 class AActor;
 class AMyAIController;
 class Awheel;
+class UMoveToLocationMarker;
 /**
  * 
  */
@@ -80,4 +81,7 @@ public:
 
         UFUNCTION(BluePrintCallable, Category="Possession")
         void Reposess();
+
+        // move to location component
+        UMoveToLocationMarker* MoveToLocationComponent;
 };

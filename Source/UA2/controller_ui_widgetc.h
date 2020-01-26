@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "controller_ui_widgetc.generated.h"
 
+class AVehicleBase;
+
 /**
  * 
  */
@@ -16,7 +18,7 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
 
   public:
         UFUNCTION(BluePrintCallable, Category="MapControl")
-        void Magic(UCanvasPanelSlot* CanvaSslot);
+        void Magic(UCanvasPanelSlot* CanvaSslot, FString ButtonName);
 
         UFUNCTION(BluePrintCallable, Category="MapControl")
         void Call_On_Tick();
@@ -38,6 +40,15 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         void SpawnUnitsButtonClicked();
 
         FVector2D GetActualMousePosition();
+
+        // selected vehicle
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=AnchorData)
+        FString SelectedVehicleName = "None";
+
+        AVehicleBase* SelectedVehicle;
+
+        FString ButtonClicked;
+
 
 
 
