@@ -155,6 +155,8 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
         UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
 
       }
+      UE_LOG(LogTemp, Warning, TEXT("destroy actor called"));
+      SpawnedWorldClickL->Destroy();
 
 
     }
