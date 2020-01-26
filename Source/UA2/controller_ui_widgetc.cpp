@@ -9,6 +9,7 @@
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "HostStation.h"
 #include "DrawDebugHelpers.h"
+#include "WorldClickedLocation.h"
 
 
 
@@ -78,8 +79,8 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 
   if(IsMouseDragging==0)
   {
-    UE_LOG(LogTemp, Warning, TEXT("mouse clicked (not dragged)"));
-    UE_LOG(LogTemp, Warning, TEXT("GetPositionOnMap"));
+    // UE_LOG(LogTemp, Warning, TEXT("mouse clicked (not dragged)"));
+    // UE_LOG(LogTemp, Warning, TEXT("GetPositionOnMap"));
     if(RefCanvasSlot!=nullptr)
     {
 
@@ -87,7 +88,7 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
       float OrthoWidth = 5000.0;
 
       FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
-      UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
+      // UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
 
 
       FVector WorldMapClickLocationFV;
@@ -99,17 +100,62 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 
 
       // draw line
-      DrawDebugLine(
+      // DrawDebugLine(
+          // GetWorld(),
+          // WorldClickLocation,
+          // WorldClickLocation+FVector(0,0,-10000000),
+          // // 100*(CurrentLocation+ForwardVec),
+          // FColor(255,0,0), // color
+          // true, //persitent
+          // 1.,// lifetime
+          // 2,// depth priority
+          // 20 // thickness
+          // );
+
+      // UE_LOG(LogTemp, Warning, TEXT("making LineTraceSingleByChannel"));
+      // make line trace
+      FHitResult HitResult;
+      FVector StartLocation;
+      FVector EndLocation;
+      bool HitSomething = GetWorld()->LineTraceSingleByChannel(
+          HitResult, // Out hit
+          // StartLocation, // start
+          // EndLocation, // end
+          WorldClickLocation, // start
+          WorldClickLocation+FVector(0,0,-10000000), // end
+          ECollisionChannel::ECC_Visibility);
+      // try to print actor
+      if(HitResult.GetActor()!=nullptr)
+      {
+        UE_LOG(LogTemp, Warning, TEXT("hit actor:%s"), *HitResult.GetActor()->GetName());
+      }
+
+      // draw sphere at hit location
+      DrawDebugSphere(
           GetWorld(),
-          WorldClickLocation,
-          WorldClickLocation+FVector(0,0,-10000000),
-          // 100*(CurrentLocation+ForwardVec),
-          FColor(255,0,0), // color
-          true, //persitent
-          1.,// lifetime
-          2,// depth priority
-          20 // thickness
+          HitResult.Location,
+          500, // radius
+          20, // segments
+          FColor(0,255,0), // color
+          1 // persistent lines
           );
+
+      // spawn an actor at this location, search for nearest actors that are vehicles
+      AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
+          AWorldClickedLocation::StaticClass(),
+          HitResult.Location,
+          FRotator(0,0,0)
+          );
+      UE_LOG(LogTemp, Warning, TEXT("HitResult.Location:%s"), *HitResult.Location.ToString());
+      AWorldClickedLocation* SpawnedWorldClickL = Cast<AWorldClickedLocation>(SpawnedWorldClickLActor);
+      AActor* FoundActor =  SpawnedWorldClickL->FindNearestActor();
+      if(FoundActor!=nullptr)
+      {
+        FoundActor->GetName();
+        UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
+
+      }
+
 
     }
 
