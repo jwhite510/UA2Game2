@@ -32,3 +32,7 @@ void UMoveToLocationMarker::TickComponent(float DeltaTime, ELevelTick TickType, 
 	// ...
 }
 
+void UMoveToLocationMarker::CreateMoveMarker()
+{
+  UE_LOG(LogTemp, Warning, TEXT("creating move marker"));
+}

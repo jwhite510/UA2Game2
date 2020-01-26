@@ -11,6 +11,8 @@
 #include "DrawDebugHelpers.h"
 #include "WorldClickedLocation.h"
 #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
+#include "TankUnit.h"
+#include "MoveToLocationMarker.h"
 
 
 
@@ -153,6 +155,11 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
         if(SelectedVehicle!=nullptr)
         {
           UE_LOG(LogTemp, Warning, TEXT("%s"), *SelectedVehicle->GetName());
+          ATankUnit* SelectedTank = Cast<ATankUnit>(SelectedVehicle);
+          if(SelectedTank!=nullptr)
+          {
+            SelectedTank->MoveToLocationComponent->CreateMoveMarker();
+          }
         }
       }
     }
