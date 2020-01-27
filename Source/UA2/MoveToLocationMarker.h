@@ -7,6 +7,9 @@
 #include "Components/ActorComponent.h"
 #include "MoveToLocationMarker.generated.h"
 
+class USceneComponent;
+class AVehicleBase;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UA2_API UMoveToLocationMarker : public UActorComponent
@@ -28,5 +31,8 @@ public:
 
         void CreateMoveMarker();
 
-		
+        USceneComponent* SceneComponent;
+
+        void RegisterParent(AVehicleBase* _ParentVehicle);
+        AVehicleBase* ParentVehicle;
 };

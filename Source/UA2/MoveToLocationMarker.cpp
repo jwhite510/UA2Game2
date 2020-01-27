@@ -2,6 +2,9 @@
 
 
 #include "MoveToLocationMarker.h"
+#include "VehicleBase.h"
+#include "TankUnit.h"
+#include "MovementWaypoint.h"
 
 // Sets default values for this component's properties
 UMoveToLocationMarker::UMoveToLocationMarker()
@@ -34,5 +37,15 @@ void UMoveToLocationMarker::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 void UMoveToLocationMarker::CreateMoveMarker()
 {
-  UE_LOG(LogTemp, Warning, TEXT("creating move marker"));
+  UChildActorComponent* NewComp1 = NewObject<UChildActorComponent>(this);
+  NewComp1->bEditableWhenInherited = true;
+  NewComp1->RegisterComponent();
+  NewComp1->SetChildActorClass(AMovementWaypoint::StaticClass());
+  NewComp1->CreateChildActor();
+  UE_LOG(LogTemp, Warning, TEXT("CreateChildActor called"));
+
+}
+void UMoveToLocationMarker::RegisterParent(AVehicleBase* _ParentVehicle)
+{
+  this->ParentVehicle = _ParentVehicle;
 }
