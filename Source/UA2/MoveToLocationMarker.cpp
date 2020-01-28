@@ -35,14 +35,31 @@ void UMoveToLocationMarker::TickComponent(float DeltaTime, ELevelTick TickType, 
 	// ...
 }
 
-void UMoveToLocationMarker::CreateMoveMarker()
+void UMoveToLocationMarker::CreateMoveMarker(FVector Location)
 {
+
+  TArray<AActor*> ChidActors;
+  this->ParentVehicle->GetAllChildActors(ChidActors);
+  for(auto& _Actor : ChidActors){
+    AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
+    if(ChildMovementWaypoint!=nullptr)
+    {
+      // actor already exists
+      // ChildMovementWaypoint->Destroy();
+      ChildMovementWaypoint->SetActorLocation(Location);
+      return;
+    }
+
+  }
+
+  // if there is no waypoint, create it
   UChildActorComponent* NewComp1 = NewObject<UChildActorComponent>(this);
   NewComp1->bEditableWhenInherited = true;
   NewComp1->RegisterComponent();
   NewComp1->SetChildActorClass(AMovementWaypoint::StaticClass());
   NewComp1->CreateChildActor();
-  UE_LOG(LogTemp, Warning, TEXT("CreateChildActor called"));
+  NewComp1->GetChildActor()->SetActorLocation(Location);
+  UE_LOG(LogTemp, Warning, TEXT("setting actor location"));
 
 }
 void UMoveToLocationMarker::RegisterParent(AVehicleBase* _ParentVehicle)

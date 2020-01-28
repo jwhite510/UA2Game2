@@ -4,6 +4,7 @@
 #include "DrawDebugHelpers.h"
 #include "MyAIController.h"
 #include "TankUnit.h"
+#include "MovementWaypoint.h"
 
 void AMyAIController::Tick(float DeltaTime)
 {
@@ -18,10 +19,22 @@ void AMyAIController::Tick(float DeltaTime)
     // find target
     AActor* TargetActor = FindTarget(ControllerPawn);
 
+    // try to find waypoint
+    TArray<AActor*> ChidActors;
+    GetPawn()->GetAllChildActors(ChidActors);
+    for(auto& _Actor : ChidActors){
+      // check if actor is of type waypoint
+      AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
+      if(ChildMovementWaypoint!=nullptr)
+      {
+        // UE_LOG(LogTemp, Warning, TEXT("Tank Found Actor WAypoint %s"), *ChildMovementWaypoint->GetName());
+        MoveToActor(ChildMovementWaypoint, 10000);
+      }
+    }
 
+    // target and move toward this actor
     if(TargetActor!=nullptr)
     {
-
       FVector TargetLocation = TargetActor->GetActorLocation();
       FVector ThisPawnLocation = ControllerPawn->GetActorLocation();
       FVector AimDirection = TargetLocation - ThisPawnLocation;
@@ -46,7 +59,7 @@ void AMyAIController::Tick(float DeltaTime)
       if(Distance > 1000)
       {
         // move toward target
-        MoveToActor(TargetActor, 100);
+        // MoveToActor(TargetActor, 100);
       }
       else
       {
@@ -56,9 +69,6 @@ void AMyAIController::Tick(float DeltaTime)
       }
 
       ControllerPawn->AimTowards(AimDirection);
-
-
-
     }
 
   }

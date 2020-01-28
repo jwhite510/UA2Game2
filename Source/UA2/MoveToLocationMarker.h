@@ -29,7 +29,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
-        void CreateMoveMarker();
+        void CreateMoveMarker(FVector Location);
 
         USceneComponent* SceneComponent;
 

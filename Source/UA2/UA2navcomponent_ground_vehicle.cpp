@@ -9,7 +9,6 @@
 
 void UUA2navcomponent_ground_vehicle::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-
   // UE_LOG(LogTemp, Warning, TEXT("%s RequestDirectMove called"), *ThisVehicle->GetName());
   FVector ThisVehicleLocation = ThisVehicle->GetActorLocation();
 
@@ -66,9 +65,6 @@ void UUA2navcomponent_ground_vehicle::RequestDirectMove(const FVector& MoveVeloc
 
 
   Cast<ATankUnit>(ThisVehicle)->ControlWheels(0.5*DotProductValue, CrossProductValue.Z);
-
-
-
 }
 void UUA2navcomponent_ground_vehicle::FindActor(AVehicleBase* ThisVehicle_in)
 {

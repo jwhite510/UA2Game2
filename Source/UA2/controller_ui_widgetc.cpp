@@ -84,34 +84,33 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
   {
     if(RefCanvasSlot!=nullptr)
     {
+
+      // get world mouse click location
+      // ortho width of camera:
+      float OrthoWidth = 5000.0;
+      FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
+      FVector WorldMapClickLocationFV;
+      WorldMapClickLocationFV.X = -WorldMapClickLocation.Y;
+      WorldMapClickLocationFV.Y = WorldMapClickLocation.X;
+      WorldMapClickLocationFV.Z = 0;
+      FVector WorldClickLocation = WorldMapClickLocationFV+OriginalCameraPosition;
+
+      // make line trace
+      FHitResult HitResult;
+      FVector StartLocation;
+      FVector EndLocation;
+      bool HitSomething = GetWorld()->LineTraceSingleByChannel(
+          HitResult, // Out hit
+          // StartLocation, // start
+          // EndLocation, // end
+          WorldClickLocation, // start
+          WorldClickLocation+FVector(0,0,-10000000), // end
+          ECollisionChannel::ECC_Visibility
+          );
+
       if(ButtonClicked=="Left Mouse button")
       {
-        // ortho width of camera:
-        float OrthoWidth = 5000.0;
 
-        FVector2D WorldMapClickLocation = OrthoWidth*(GetPositionOnMap(RefCanvasSlot));
-        // UE_LOG(LogTemp, Warning, TEXT("WorldMapClickLocation:%s"), *WorldMapClickLocation.ToString());
-
-
-        FVector WorldMapClickLocationFV;
-        WorldMapClickLocationFV.X = -WorldMapClickLocation.Y;
-        WorldMapClickLocationFV.Y = WorldMapClickLocation.X;
-        WorldMapClickLocationFV.Z = 0;
-
-        FVector WorldClickLocation = WorldMapClickLocationFV+OriginalCameraPosition;
-
-        // UE_LOG(LogTemp, Warning, TEXT("making LineTraceSingleByChannel"));
-        // make line trace
-        FHitResult HitResult;
-        FVector StartLocation;
-        FVector EndLocation;
-        bool HitSomething = GetWorld()->LineTraceSingleByChannel(
-            HitResult, // Out hit
-            // StartLocation, // start
-            // EndLocation, // end
-            WorldClickLocation, // start
-            WorldClickLocation+FVector(0,0,-10000000), // end
-            ECollisionChannel::ECC_Visibility);
         // try to print actor
         if(HitResult.GetActor()!=nullptr)
         {
@@ -158,7 +157,8 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
           ATankUnit* SelectedTank = Cast<ATankUnit>(SelectedVehicle);
           if(SelectedTank!=nullptr)
           {
-            SelectedTank->MoveToLocationComponent->CreateMoveMarker();
+            SelectedTank->MoveToLocationComponent->CreateMoveMarker(HitResult.Location);
+            UE_LOG(LogTemp, Warning, TEXT("move marker to: %s"), *HitResult.Location.ToString());
           }
         }
       }
