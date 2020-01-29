@@ -5,6 +5,8 @@
 #include "MyAIController.h"
 #include "TankUnit.h"
 #include "MovementWaypoint.h"
+#include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 void AMyAIController::Tick(float DeltaTime)
 {
@@ -39,19 +41,21 @@ void AMyAIController::Tick(float DeltaTime)
       FVector ThisPawnLocation = ControllerPawn->GetActorLocation();
       FVector AimDirection = TargetLocation - ThisPawnLocation;
 
-      // DrawDebugLine(
-      //     GetWorld(),
-      //     ThisPawnLocation,
-      //     ThisPawnLocation + (100*AimDirection.GetSafeNormal()),
-      //     FColor(0,0,255), // color
-      //     true, //persitent
-      //     1.,// lifetime
-      //     1,// depth priority
-      //     20 // thickness
-      //     );
-
-
-      // UE_LOG(LogTemp, Warning, TEXT("AimTowards called"));
+      FVector OutLaunchVelocity(0);
+      FVector StartLocation=Cast<ATankUnit>(GetPawn())->Barrel->GetComponentLocation();
+      StartLocation+=(Cast<ATankUnit>(GetPawn())->Barrel->GetUpVector())*(-150);
+      bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+          this,
+          OutLaunchVelocity,
+          StartLocation,
+          TargetLocation,
+          1000,
+          false,
+          0,
+          0,
+          ESuggestProjVelocityTraceOption::DoNotTrace // parameter must be present to prevent bug
+          );
+      // UE_LOG(LogTemp, Warning, TEXT("bHaveAimSolution:%i"), bHaveAimSolution);
 
       // check if the actors are far away
       float Distance = FVector::Dist(TargetLocation, ThisPawnLocation);
@@ -65,10 +69,25 @@ void AMyAIController::Tick(float DeltaTime)
       {
         // dont move
         ControllerPawn->ControlWheels(0.0, 0.0);
-
       }
 
-      ControllerPawn->AimTowards(AimDirection);
+      float DotProd = 0;
+      if(bHaveAimSolution)
+      {
+        DotProd = ControllerPawn->AimTowards(OutLaunchVelocity.GetSafeNormal());
+      }
+      else
+      {
+        ControllerPawn->AimTowards(AimDirection);
+      }
+
+      float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+      if(TimeNow > (LastFireTime+3) && bHaveAimSolution && (DotProd>0.8))
+      {
+        ControllerPawn->FireCannon();
+        LastFireTime = TimeNow;
+        UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
+      }
     }
 
   }

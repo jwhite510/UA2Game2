@@ -193,11 +193,12 @@ void ATankUnit::SwitchPawn()
   // PlayerController->Possess()
   // APlayerController
 }
-void ATankUnit::AimTowards(FVector AimHere)
+float ATankUnit::AimTowards(FVector AimHere)
 {
   // UE_LOG(LogTemp, Warning, TEXT("ATankUnit move aim towards %s"), *AimHere.ToString());
 
   FVector BarrelDirection = TurretBase->GetForwardVector();
+  float DotProductValue = FVector::DotProduct(AimHere, BarrelDirection);
   float YawDiff = BarrelDirection.Rotation().Yaw - AimHere.Rotation().Yaw;
   float ElevationDiff = BarrelDirection.Rotation().Pitch - AimHere.Rotation().Pitch;
   // UE_LOG(LogTemp, Warning, TEXT("new new"), YawDiff);
@@ -217,6 +218,8 @@ void ATankUnit::AimTowards(FVector AimHere)
   CurrentRelativeRotation.Pitch -= 40*FMath::Clamp<float>(ElevationDiff, -1, +1)*GetWorld()->DeltaTimeSeconds;
   CurrentRelativeRotation.Pitch = FMath::Clamp<float>(CurrentRelativeRotation.Pitch, -10, +10);
   TurretBase->SetRelativeRotation(CurrentRelativeRotation);
+
+  return DotProductValue;
 
 }
 
@@ -239,22 +242,7 @@ void ATankUnit::HandleLeftMouseClick()
   }
   else
   {
-    FVector ForwardDirection = Barrel->GetUpVector();
-    FVector WorldLocation = Barrel->GetComponentLocation();
-
-    AActor* Projectile = GetWorld()->SpawnActor<AActor>(
-        ProjectileBluePrint,
-        WorldLocation+(-150*ForwardDirection),
-        FRotator(0,0,0)
-        );
-
-        UStaticMeshComponent* ProjectileMesh = Projectile->FindComponentByClass<UStaticMeshComponent>();
-
-
-        FVector PawnVelocity = GetVelocity();
-        FVector ProjectileVelocity=((-5000*ForwardDirection)+PawnVelocity);
-        ProjectileMesh->SetPhysicsLinearVelocity(ProjectileVelocity,true);
-
+    FireCannon();
   }
 
 }
@@ -273,4 +261,22 @@ void ATankUnit::Reposess()
   ThisAIController->Possess(this);
 
 
+}
+void ATankUnit::FireCannon()
+{
+  FVector ForwardDirection = Barrel->GetUpVector();
+  FVector WorldLocation = Barrel->GetComponentLocation();
+
+  AActor* Projectile = GetWorld()->SpawnActor<AActor>(
+      ProjectileBluePrint,
+      WorldLocation+(-150*ForwardDirection),
+      FRotator(0,0,0)
+      );
+
+  UStaticMeshComponent* ProjectileMesh = Projectile->FindComponentByClass<UStaticMeshComponent>();
+
+
+  FVector PawnVelocity = GetVelocity();
+  FVector ProjectileVelocity=((-1000*ForwardDirection)+PawnVelocity);
+  ProjectileMesh->SetPhysicsLinearVelocity(ProjectileVelocity,true);
 }

@@ -57,7 +57,7 @@ public:
         UFUNCTION(BluePrintCallable, Category="Debug")
         void SwitchPawn();
 
-        void AimTowards(FVector AimHere);
+        float AimTowards(FVector AimHere);
 
         UStaticMeshComponent* TurretBase = nullptr;
         UStaticMeshComponent* Barrel = nullptr;
@@ -84,4 +84,7 @@ public:
 
         // move to location component
         UMoveToLocationMarker* MoveToLocationComponent;
+
+
+        void FireCannon();
 };
