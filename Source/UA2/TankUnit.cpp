@@ -199,23 +199,24 @@ void ATankUnit::AimTowards(FVector AimHere)
 
   FVector BarrelDirection = TurretBase->GetForwardVector();
   float YawDiff = BarrelDirection.Rotation().Yaw - AimHere.Rotation().Yaw;
-
+  float ElevationDiff = BarrelDirection.Rotation().Pitch - AimHere.Rotation().Pitch;
   // UE_LOG(LogTemp, Warning, TEXT("new new"), YawDiff);
 
+  FRotator CurrentRelativeRotation = TurretBase->GetRelativeRotation();
   if (FMath::Abs(YawDiff) < 180)
   {
     YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    FRotator CurrentRelativeRotation = TurretBase->GetRelativeRotation();
-    CurrentRelativeRotation.Yaw -= 20*YawDiff*GetWorld()->DeltaTimeSeconds;
-    TurretBase->SetRelativeRotation(CurrentRelativeRotation);
+    CurrentRelativeRotation.Yaw -= 40*YawDiff*GetWorld()->DeltaTimeSeconds;
   }
   else
   {
     YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    FRotator CurrentRelativeRotation = TurretBase->GetRelativeRotation();
-    CurrentRelativeRotation.Yaw += 20*YawDiff*GetWorld()->DeltaTimeSeconds;
-    TurretBase->SetRelativeRotation(CurrentRelativeRotation);
+    CurrentRelativeRotation.Yaw += 40*YawDiff*GetWorld()->DeltaTimeSeconds;
   }
+  // adjust barrel elevation
+  CurrentRelativeRotation.Pitch -= 40*FMath::Clamp<float>(ElevationDiff, -1, +1)*GetWorld()->DeltaTimeSeconds;
+  CurrentRelativeRotation.Pitch = FMath::Clamp<float>(CurrentRelativeRotation.Pitch, -10, +10);
+  TurretBase->SetRelativeRotation(CurrentRelativeRotation);
 
 }
 

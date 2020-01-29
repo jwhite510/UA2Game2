@@ -118,14 +118,14 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
         }
 
         // draw sphere at hit location
-        DrawDebugSphere(
-            GetWorld(),
-            HitResult.Location,
-            500, // radius
-            20, // segments
-            FColor(0,255,0), // color
-            1 // persistent lines
-            );
+        // DrawDebugSphere(
+        //     GetWorld(),
+        //     HitResult.Location,
+        //     500, // radius
+        //     20, // segments
+        //     FColor(0,255,0), // color
+        //     1 // persistent lines
+        //     );
 
         // spawn an actor at this location, search for nearest actors that are vehicles
         AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
