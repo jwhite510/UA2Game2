@@ -17,6 +17,7 @@ class AActor;
 class AMyAIController;
 class Awheel;
 class UMoveToLocationMarker;
+class UUA2navcomponent_ground_vehicle;
 /**
  * 
  */
@@ -84,6 +85,10 @@ public:
 
         // move to location component
         UMoveToLocationMarker* MoveToLocationComponent;
+
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Something")
+        UUA2navcomponent_ground_vehicle* NavigationComponent;
 
 
         void FireCannon();

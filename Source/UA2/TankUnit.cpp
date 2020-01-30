@@ -9,6 +9,7 @@
 #include "TankUnit.h"
 #include "MoveToLocationMarker.h"
 #include "MovementWaypoint.h"
+#include "UA2navcomponent_ground_vehicle.h"
 
 // Sets default values
 ATankUnit::ATankUnit()
@@ -18,6 +19,7 @@ ATankUnit::ATankUnit()
         // movement component
         MoveToLocationComponent = CreateDefaultSubobject<UMoveToLocationMarker>(FName("MoveToLocationComponent"));
         MoveToLocationComponent->RegisterParent(Cast<AVehicleBase>(this));
+        NavigationComponent = CreateDefaultSubobject<UUA2navcomponent_ground_vehicle>(FName("NavigationComponent"));
 }
 // Called when the game starts or when spawned
 void ATankUnit::BeginPlay()
