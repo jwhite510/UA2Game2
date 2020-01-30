@@ -41,24 +41,25 @@ void UMoveToLocationMarker::CreateMoveMarker(FVector Location)
   TArray<AActor*> ChidActors;
   this->ParentVehicle->GetAllChildActors(ChidActors);
   for(auto& _Actor : ChidActors){
+    // if there is already a waypoint
     AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
     if(ChildMovementWaypoint!=nullptr)
     {
       // actor already exists
-      // ChildMovementWaypoint->Destroy();
-      ChildMovementWaypoint->SetActorLocation(Location);
+      ChildMovementWaypoint->Destroy();
+      ChildComponent->UnregisterComponent();
       return;
     }
 
   }
 
   // if there is no waypoint, create it
-  UChildActorComponent* NewComp1 = NewObject<UChildActorComponent>(this);
-  NewComp1->bEditableWhenInherited = true;
-  NewComp1->RegisterComponent();
-  NewComp1->SetChildActorClass(AMovementWaypoint::StaticClass());
-  NewComp1->CreateChildActor();
-  NewComp1->GetChildActor()->SetActorLocation(Location);
+  ChildComponent = NewObject<UChildActorComponent>(this);
+  ChildComponent->bEditableWhenInherited = true;
+  ChildComponent->RegisterComponent();
+  ChildComponent->SetChildActorClass(AMovementWaypoint::StaticClass());
+  ChildComponent->CreateChildActor();
+  ChildComponent->GetChildActor()->SetActorLocation(Location);
   UE_LOG(LogTemp, Warning, TEXT("setting actor location"));
 
 }

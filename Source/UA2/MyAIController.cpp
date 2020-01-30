@@ -24,14 +24,24 @@ void AMyAIController::Tick(float DeltaTime)
     // try to find waypoint
     TArray<AActor*> ChidActors;
     GetPawn()->GetAllChildActors(ChidActors);
+    // UE_LOG(LogTemp, Warning, TEXT("Child Actors of %s"), *ControllerPawn->GetName());
+    bool FoundWaypoint = 0;
     for(auto& _Actor : ChidActors){
+      // UE_LOG(LogTemp, Warning, TEXT("ChildActorName:%s"), *_Actor->GetName());
       // check if actor is of type waypoint
       AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
       if(ChildMovementWaypoint!=nullptr)
       {
-        // UE_LOG(LogTemp, Warning, TEXT("Tank Found Actor WAypoint %s"), *ChildMovementWaypoint->GetName());
+        UE_LOG(LogTemp, Warning, TEXT("MoveToActor called"));
         MoveToActor(ChildMovementWaypoint, 10000);
+        FoundWaypoint = 1;
       }
+    }
+    if(!FoundWaypoint)
+    {
+      StopMovement();
+      // dont move wheels
+      ControllerPawn->ControlWheels(0.0, 0.0);
     }
 
     // target and move toward this actor

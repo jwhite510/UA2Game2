@@ -35,4 +35,7 @@ public:
 
         void RegisterParent(AVehicleBase* _ParentVehicle);
         AVehicleBase* ParentVehicle;
+
+        UChildActorComponent* ChildComponent;
+
 };
