@@ -90,13 +90,28 @@ void AUAVehiclePlayerController::SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnit
 }
 void AUAVehiclePlayerController::HandleLeftMouseClick()
 {
+  // check if in ui mode
   if(Cast<AHostStation>(GetPawn())!=nullptr)
   {
-    Cast<AHostStation>(GetPawn())->HandleLeftMouseClick();
+    if(Cast<AHostStation>(GetPawn())->SpawnState)
+    {
+      Cast<AHostStation>(GetPawn())->HandleLeftMouseClick();
+    }
+    else if(UI_enabled)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+    }
   }
   else if(Cast<ATankUnit>(GetPawn())!=nullptr)
   {
-    Cast<ATankUnit>(GetPawn())->HandleLeftMouseClick();
+    if(UI_enabled)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+    }
+    else
+    {
+      Cast<ATankUnit>(GetPawn())->HandleLeftMouseClick();
+    }
   }
 
 }

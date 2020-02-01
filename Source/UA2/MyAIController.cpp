@@ -32,7 +32,6 @@ void AMyAIController::Tick(float DeltaTime)
       AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
       if(ChildMovementWaypoint!=nullptr)
       {
-        UE_LOG(LogTemp, Warning, TEXT("MoveToActor called"));
         MoveToActor(ChildMovementWaypoint, 10000);
         FoundWaypoint = 1;
       }

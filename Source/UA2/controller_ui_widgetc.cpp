@@ -41,7 +41,6 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
 {
   if ( IsMouseDown )
   {
-    UE_LOG(LogTemp, Warning, TEXT("mouse down "));
     float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
     float TimeMouseHeld = TimeNow - InitialClickTime;
     // UE_LOG(LogTemp, Warning, TEXT("TimeMouseHeld: %f"), TimeMouseHeld);
