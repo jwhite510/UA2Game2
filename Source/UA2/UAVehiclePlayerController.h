@@ -35,4 +35,12 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=AnchorData)
         Ucontroller_ui_widgetc* ControllerUIWidget;
 
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Controller")
+        bool UI_enabled;
+
+        UFUNCTION(BluePrintCallable, Category="Input")
+        void HandleLeftMouseClick();
+
+
+
 };

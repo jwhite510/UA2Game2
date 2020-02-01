@@ -13,7 +13,6 @@
 
 int AUAVehiclePlayerController::ToggleMouseCursor()
 {
-
   if (bShowMouseCursor == 1)
   {
     bShowMouseCursor = 0;
@@ -72,16 +71,9 @@ void AUAVehiclePlayerController::Tick(float DeltaTime)
 
 
         }
-
-
-
-        
-
-
 }
 void AUAVehiclePlayerController::SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnitButton)
 {
-
   // is it a tank?
   ATankUnit* NewPawnTank = Cast<ATankUnit>(NewPawn);
 
@@ -95,7 +87,16 @@ void AUAVehiclePlayerController::SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnit
   {
     SpawnUnitButton->SetVisibility(ESlateVisibility::Hidden);
   }
-
-
+}
+void AUAVehiclePlayerController::HandleLeftMouseClick()
+{
+  if(Cast<AHostStation>(GetPawn())!=nullptr)
+  {
+    Cast<AHostStation>(GetPawn())->HandleLeftMouseClick();
+  }
+  else if(Cast<ATankUnit>(GetPawn())!=nullptr)
+  {
+    Cast<ATankUnit>(GetPawn())->HandleLeftMouseClick();
+  }
 
 }

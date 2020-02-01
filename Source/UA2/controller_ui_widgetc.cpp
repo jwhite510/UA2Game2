@@ -41,6 +41,7 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
 {
   if ( IsMouseDown )
   {
+    UE_LOG(LogTemp, Warning, TEXT("mouse down "));
     float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
     float TimeMouseHeld = TimeNow - InitialClickTime;
     // UE_LOG(LogTemp, Warning, TEXT("TimeMouseHeld: %f"), TimeMouseHeld);
@@ -74,6 +75,8 @@ void Ucontroller_ui_widgetc::Call_On_Tick()
   UCanvasPanelSlot* Ucs = Cast<UCanvasPanelSlot>(SpawnUnitsCursorCC->Slot);
   // move
   FVector2D MouseScreenPositionIn = GetActualMousePosition();
+  MouseScreenPositionIn.X += 10;
+  MouseScreenPositionIn.Y += 10;
   Ucs->SetPosition(MouseScreenPositionIn);
 
 }

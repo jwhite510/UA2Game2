@@ -7,6 +7,7 @@
 #include "controller_ui_widgetc.generated.h"
 
 class AVehicleBase;
+class AUAVehiclePlayerController;
 
 /**
  * 
@@ -49,6 +50,9 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
 
         FString ButtonClicked;
 
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Controller")
+        AUAVehiclePlayerController* ThisPlayerController;
 
 
 
