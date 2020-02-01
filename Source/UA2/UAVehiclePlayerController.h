@@ -39,7 +39,9 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
         bool UI_enabled;
 
         UFUNCTION(BluePrintCallable, Category="Input")
-        void HandleLeftMouseClick();
+        void HandleMouseClick(FString Button);
+
+        void ClickWorld(FString Button);
 
 
 

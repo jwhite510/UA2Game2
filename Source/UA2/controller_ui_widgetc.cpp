@@ -112,57 +112,11 @@ void Ucontroller_ui_widgetc::C_Mouse_Button_Up()
 
       if(ButtonClicked=="Left Mouse button")
       {
-
-        // try to print actor
-        if(HitResult.GetActor()!=nullptr)
-        {
-          UE_LOG(LogTemp, Warning, TEXT("hit actor:%s"), *HitResult.GetActor()->GetName());
-        }
-
-        // draw sphere at hit location
-        // DrawDebugSphere(
-        //     GetWorld(),
-        //     HitResult.Location,
-        //     500, // radius
-        //     20, // segments
-        //     FColor(0,255,0), // color
-        //     1 // persistent lines
-        //     );
-
-        // spawn an actor at this location, search for nearest actors that are vehicles
-        AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
-            AWorldClickedLocation::StaticClass(),
-            HitResult.Location,
-            FRotator(0,0,0)
-            );
-        UE_LOG(LogTemp, Warning, TEXT("HitResult.Location:%s"), *HitResult.Location.ToString());
-        AWorldClickedLocation* SpawnedWorldClickL = Cast<AWorldClickedLocation>(SpawnedWorldClickLActor);
-        AActor* FoundActor =  SpawnedWorldClickL->FindNearestActor();
-        if(FoundActor!=nullptr)
-        {
-          FoundActor->GetName();
-          UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
-          // set variable
-          SelectedVehicleName = FoundActor->GetName();
-          SelectedVehicle = Cast<AVehicleBase>(FoundActor);
-
-        }
-        UE_LOG(LogTemp, Warning, TEXT("destroy actor called"));
-        SpawnedWorldClickL->Destroy();
+        SelectVehicle(HitResult);
       }
       else if (ButtonClicked=="Right Mouse button")
       {
-        UE_LOG(LogTemp, Warning, TEXT("send move command to unit"));
-        if(SelectedVehicle!=nullptr)
-        {
-          UE_LOG(LogTemp, Warning, TEXT("%s"), *SelectedVehicle->GetName());
-          ATankUnit* SelectedTank = Cast<ATankUnit>(SelectedVehicle);
-          if(SelectedTank!=nullptr)
-          {
-            SelectedTank->MoveToLocationComponent->CreateMoveMarker(HitResult.Location);
-            UE_LOG(LogTemp, Warning, TEXT("move marker to: %s"), *HitResult.Location.ToString());
-          }
-        }
+        MoveOrder(HitResult);
       }
     }
 
@@ -238,4 +192,59 @@ FVector2D Ucontroller_ui_widgetc::GetActualMousePosition()
   FVector2D MouseScreenPositionIn(LocationX, LocationY);
   MouseScreenPositionIn = MouseScreenPositionIn / viewport_scale;
   return MouseScreenPositionIn;
+}
+void Ucontroller_ui_widgetc::SelectVehicle(FHitResult HitResult)
+{
+        UE_LOG(LogTemp, Warning, TEXT("SelectVehicle function"));
+        // try to print actor
+        if(HitResult.GetActor()!=nullptr)
+        {
+          UE_LOG(LogTemp, Warning, TEXT("hit actor:%s"), *HitResult.GetActor()->GetName());
+        }
+
+        // draw sphere at hit location
+        // DrawDebugSphere(
+        //     GetWorld(),
+        //     HitResult.Location,
+        //     500, // radius
+        //     20, // segments
+        //     FColor(0,255,0), // color
+        //     1 // persistent lines
+        //     );
+
+        // spawn an actor at this location, search for nearest actors that are vehicles
+        AActor* SpawnedWorldClickLActor = GetWorld()->SpawnActor<AActor>(
+            AWorldClickedLocation::StaticClass(),
+            HitResult.Location,
+            FRotator(0,0,0)
+            );
+        UE_LOG(LogTemp, Warning, TEXT("HitResult.Location:%s"), *HitResult.Location.ToString());
+        AWorldClickedLocation* SpawnedWorldClickL = Cast<AWorldClickedLocation>(SpawnedWorldClickLActor);
+        AActor* FoundActor =  SpawnedWorldClickL->FindNearestActor();
+        if(FoundActor!=nullptr)
+        {
+          FoundActor->GetName();
+          UE_LOG(LogTemp, Warning, TEXT("FoundActor:%s"), *FoundActor->GetName());
+          // set variable
+          SelectedVehicleName = FoundActor->GetName();
+          SelectedVehicle = Cast<AVehicleBase>(FoundActor);
+
+        }
+        UE_LOG(LogTemp, Warning, TEXT("destroy actor called"));
+        SpawnedWorldClickL->Destroy();
+
+}
+void Ucontroller_ui_widgetc::MoveOrder(FHitResult HitResult)
+{
+  UE_LOG(LogTemp, Warning, TEXT("send move command to unit"));
+  if(SelectedVehicle!=nullptr)
+  {
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *SelectedVehicle->GetName());
+    ATankUnit* SelectedTank = Cast<ATankUnit>(SelectedVehicle);
+    if(SelectedTank!=nullptr)
+    {
+      SelectedTank->MoveToLocationComponent->CreateMoveMarker(HitResult.Location);
+      UE_LOG(LogTemp, Warning, TEXT("move marker to: %s"), *HitResult.Location.ToString());
+    }
+  }
 }

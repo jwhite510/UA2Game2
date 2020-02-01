@@ -54,6 +54,10 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Controller")
         AUAVehiclePlayerController* ThisPlayerController;
 
+        void SelectVehicle(FHitResult HitResult);
+
+        void MoveOrder(FHitResult HitResult);
+
 
 
 

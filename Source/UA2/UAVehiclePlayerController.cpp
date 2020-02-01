@@ -88,8 +88,10 @@ void AUAVehiclePlayerController::SetUIForPawn(APawn* NewPawn, UWidget* SpawnUnit
     SpawnUnitButton->SetVisibility(ESlateVisibility::Hidden);
   }
 }
-void AUAVehiclePlayerController::HandleLeftMouseClick()
+void AUAVehiclePlayerController::HandleMouseClick(FString Button)
 {
+
+  UE_LOG(LogTemp, Warning, TEXT("Button:%s"), *Button);
   // check if in ui mode
   if(Cast<AHostStation>(GetPawn())!=nullptr)
   {
@@ -99,14 +101,16 @@ void AUAVehiclePlayerController::HandleLeftMouseClick()
     }
     else if(UI_enabled)
     {
-      UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+      // UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+      ClickWorld(Button);
     }
   }
   else if(Cast<ATankUnit>(GetPawn())!=nullptr)
   {
     if(UI_enabled)
     {
-      UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+      // UE_LOG(LogTemp, Warning, TEXT("Click Map Location"));
+      ClickWorld(Button);
     }
     else
     {
@@ -114,4 +118,32 @@ void AUAVehiclePlayerController::HandleLeftMouseClick()
     }
   }
 
+}
+void AUAVehiclePlayerController::ClickWorld(FString Button)
+{
+  FVector MouseLocation, MouseDirection;
+  DeprojectMousePositionToWorld(MouseLocation, MouseDirection);
+
+  // get hit result
+  FHitResult HitResult;
+  auto StartLocation = MouseLocation;
+  auto EndLocation = MouseLocation + (MouseDirection*100000);
+
+  bool HitSomething = GetWorld()->LineTraceSingleByChannel(
+      HitResult, // Out hit
+      StartLocation, // start
+      EndLocation, // end
+      ECollisionChannel::ECC_Visibility);
+
+  UE_LOG(LogTemp, Warning, TEXT("Button:%s"), *Button);
+  if(Button=="Left")
+  {
+    UE_LOG(LogTemp, Warning, TEXT("left button clicked"));
+    ControllerUIWidget->SelectVehicle(HitResult);
+  }
+  else if (Button=="Right")
+  {
+    UE_LOG(LogTemp, Warning, TEXT("right button clicked"));
+    ControllerUIWidget->MoveOrder(HitResult);
+  }
 }
