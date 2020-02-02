@@ -48,6 +48,14 @@ void UMoveToLocationMarker::CreateMoveMarker(FVector Location)
       // actor already exists
       ChildMovementWaypoint->Destroy();
       ChildComponent->UnregisterComponent();
+
+      // create new waypoint
+      ChildComponent = NewObject<UChildActorComponent>(this);
+      ChildComponent->bEditableWhenInherited = true;
+      ChildComponent->RegisterComponent();
+      ChildComponent->SetChildActorClass(AMovementWaypoint::StaticClass());
+      ChildComponent->CreateChildActor();
+      ChildComponent->GetChildActor()->SetActorLocation(Location);
       return;
     }
 
