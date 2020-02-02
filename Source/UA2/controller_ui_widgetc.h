@@ -8,6 +8,7 @@
 
 class AVehicleBase;
 class AUAVehiclePlayerController;
+class AHostStation;
 
 /**
  * 
@@ -57,6 +58,13 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
         void SelectVehicle(FHitResult HitResult);
 
         void MoveOrder(FHitResult HitResult);
+
+        // this player host station
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=AnchorData)
+        AHostStation* PlayerHostStation;
+
+        UFUNCTION(BluePrintCallable, Category="Setup")
+        void FindPlayerHostStation(int32 TeamIn);
 
 
 

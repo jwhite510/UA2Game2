@@ -38,4 +38,7 @@ public:
 
         bool SpawnState=0;
 
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
+        int32 HostStationEnergy=0;
+
 };

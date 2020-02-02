@@ -248,3 +248,21 @@ void Ucontroller_ui_widgetc::MoveOrder(FHitResult HitResult)
     }
   }
 }
+void Ucontroller_ui_widgetc::FindPlayerHostStation(int32 TeamIn)
+{
+  TArray<AActor*> ActorsFound;
+  UGameplayStatics::GetAllActorsOfClass(
+      GetWorld(),
+      AHostStation::StaticClass(),
+      ActorsFound
+      );
+  for(auto& _Actor : ActorsFound)
+  {
+    if(Cast<AVehicleBase>(_Actor)->Team == TeamIn)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("PlayerHostStation assigned"));
+      PlayerHostStation = Cast<AHostStation>(_Actor);
+    }
+  }
+
+}
