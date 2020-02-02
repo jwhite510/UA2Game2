@@ -6,6 +6,8 @@
 #include "DrawDebugHelpers.h"
 #include "CanSpawnUnits.h"
 #include "TankUnit.h"
+// #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
+// #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 AHostStation::AHostStation()
@@ -21,6 +23,13 @@ void AHostStation::BeginPlay()
 void AHostStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+        float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+        if((TimeNow - LastIncrementTime) > EnergyIncrementTime)
+        {
+          LastIncrementTime = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+          HostStationEnergy+=1;
+        }
+
 }
 void AHostStation::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -34,7 +43,11 @@ void AHostStation::HandleLeftMouseClick()
   {
     // ComponentSpawnThing();
     UCanSpawnUnits* SpawnUnitsComponent = FindComponentByClass<UCanSpawnUnits>();
-    SpawnUnitsComponent->SpawnThingAtLocation();
+    if(HostStationEnergy > 10)
+    {
+      SpawnUnitsComponent->SpawnThingAtLocation();
+      HostStationEnergy-=10;
+    }
 
   }
 }
