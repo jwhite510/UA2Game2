@@ -37,7 +37,7 @@ void ACapturableGridPoint::Tick(float DeltaTime)
 
   int32 team1vehicles = 0;
   int32 team2vehicles = 0;
-  UE_LOG(LogTemp, Warning, TEXT("vehicles on point %s:"), *GetName());
+  // UE_LOG(LogTemp, Warning, TEXT("vehicles on point %s:"), *GetName());
   for(auto& _Vehicle : VehiclesOnGridPoint )
   {
     if(_Vehicle!=nullptr)

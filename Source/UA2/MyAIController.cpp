@@ -77,7 +77,7 @@ void AMyAIController::Tick(float DeltaTime)
       else
       {
         // dont move
-        ControllerPawn->ControlWheels(0.0, 0.0);
+        // ControllerPawn->ControlWheels(0.0, 0.0);
       }
 
       float DotProd = 0;
