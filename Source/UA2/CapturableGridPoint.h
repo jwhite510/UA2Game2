@@ -42,4 +42,6 @@ public:
   private:
         UMaterialInstanceDynamic* DynamicMaterial;
 
+        float blend;
+
 };

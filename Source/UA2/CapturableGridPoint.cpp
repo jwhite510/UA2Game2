@@ -33,20 +33,40 @@ void ACapturableGridPoint::Tick(float DeltaTime)
 
   Super::Tick(DeltaTime);
 
-  // set material color
-  float blend = 0.5f + FMath::Cos(GetWorld()->TimeSeconds)/2;
-  DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), blend);
 
 
+  int32 team1vehicles = 0;
+  int32 team2vehicles = 0;
   UE_LOG(LogTemp, Warning, TEXT("vehicles on point %s:"), *GetName());
   for(auto& _Vehicle : VehiclesOnGridPoint )
   {
     if(_Vehicle!=nullptr)
     {
-      UE_LOG(LogTemp, Warning, TEXT("VehiclesOnGridPoint:%s"), *_Vehicle->GetName());
+      // UE_LOG(LogTemp, Warning, TEXT("VehiclesOnGridPoint:%s"), *_Vehicle->GetName());
+      // UE_LOG(LogTemp, Warning, TEXT("VehicleTeam:%i"), _Vehicle->GetTeam());
+      // add number for each vehicle
+      if(_Vehicle->GetTeam() == 1)
+      {
+        team1vehicles++;
+      }
+      else if(_Vehicle->GetTeam() == 2)
+      {
+        team2vehicles++;
+      }
+
     }
   }
+  // the color defaults to being neutral
+  float color = 0.5;
+  if(VehiclesOnGridPoint.Num()!=0)
+  {
+    color = (0*team1vehicles + 1*team2vehicles);
+    color/=VehiclesOnGridPoint.Num();
+  }
 
+  // set material color
+  blend = color;
+  DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), blend);
 }
 
 void ACapturableGridPoint::OverLapBegin(AActor* OverlappingActor)
