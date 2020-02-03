@@ -3,6 +3,11 @@
 
 #include "CapturableGridPoint.h"
 #include "VehicleBase.h"
+#include "Components/StaticMeshComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInterface.h"
+
+
 
 // Sets default values
 ACapturableGridPoint::ACapturableGridPoint()
@@ -17,21 +22,30 @@ ACapturableGridPoint::ACapturableGridPoint()
 void ACapturableGridPoint::BeginPlay()
 {
 	Super::BeginPlay();
-	
+        UMaterialInterface* Material = Tile->GetMaterial(0);
+        DynamicMaterial = UMaterialInstanceDynamic::Create(Material, NULL);
+        Tile->SetMaterial(0, DynamicMaterial);
 }
 
 // Called every frame
 void ACapturableGridPoint::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-        UE_LOG(LogTemp, Warning, TEXT("vehicles on point %s:"), *GetName());
-        for(auto& _Vehicle : VehiclesOnGridPoint )
-        {
-          if(_Vehicle!=nullptr)
-          {
-            UE_LOG(LogTemp, Warning, TEXT("VehiclesOnGridPoint:%s"), *_Vehicle->GetName());
-          }
-        }
+
+  Super::Tick(DeltaTime);
+
+  // set material color
+  float blend = 0.5f + FMath::Cos(GetWorld()->TimeSeconds)/2;
+  DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), blend);
+
+
+  UE_LOG(LogTemp, Warning, TEXT("vehicles on point %s:"), *GetName());
+  for(auto& _Vehicle : VehiclesOnGridPoint )
+  {
+    if(_Vehicle!=nullptr)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("VehiclesOnGridPoint:%s"), *_Vehicle->GetName());
+    }
+  }
 
 }
 

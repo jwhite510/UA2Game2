@@ -7,6 +7,7 @@
 #include "CapturableGridPoint.generated.h"
 
 class AVehicleBase;
+class UMaterialInstanceDynamic;
 
 UCLASS()
 class UA2_API ACapturableGridPoint : public AActor
@@ -18,7 +19,7 @@ public:
 	ACapturableGridPoint();
 
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Capture")
-        UStaticMeshComponent* CaptureVolume = nullptr;
+        UStaticMeshComponent* Tile = nullptr;
 
 protected:
 	// Called when the game starts or when spawned
@@ -37,5 +38,8 @@ public:
         AVehicleBase* FindOverlappingVehicle(AActor* OverlappingActor);
 
         TArray<AVehicleBase*> VehiclesOnGridPoint;
+
+  private:
+        UMaterialInstanceDynamic* DynamicMaterial;
 
 };
