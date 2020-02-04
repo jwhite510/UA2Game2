@@ -37,5 +37,14 @@ public:
 
         float DriveDirection = 0;
 
+        UFUNCTION(BluePrintCallable, Category="Setup")
+        void ApplyBrakes();
+
+        float RotationSpeed = 0;
+  private:
+        FVector RotationVectorOld;
+        FVector RotationVectorNew;
+        float SpeedScalar;
+
 
 };

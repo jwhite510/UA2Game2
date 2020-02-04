@@ -33,21 +33,30 @@ void Awheel::Tick(float DeltaTime)
 
         // UE_LOG(LogTemp, Warning, TEXT("drive forwared"));
 
-        // DrawDebugLine(
-        //     GetWorld(),
-        //     CurrentLocation,
-        //     CurrentLocation+ForwardVec*(-100),
-        //     // 100*(CurrentLocation+ForwardVec),
-        //     FColor(0,255,0),
-        //     true,
-        //     1.,
-        //     1,
-        //     10
-        //     );
-
-        // ForwardVec = ForwardVec * DeltaTime;
-        // UE_LOG(LogTemp, Warning, TEXT("calling drive: %f"), DriveDirection);
         Wheel->AddTorqueInRadians(DriveDirection*ForwardVec*TorqueScalar, FName("None"), 1);
+
+        // rotation speed
+        FRotator WheelRotation = Wheel->GetRelativeRotation();
+
+        // get rotation speed
+        FVector RotationVectorNew = WheelRotation.Vector();
+        FVector Distance = RotationVectorNew - RotationVectorOld;
+        SpeedScalar = Distance.Size()*DeltaTime;
+        RotationVectorOld = RotationVectorNew;
+        // UE_LOG(LogTemp, Warning, TEXT("SpeedScalar:%f"), SpeedScalar);
+
+
+        DrawDebugLine(
+            GetWorld(),
+            GetActorLocation(),
+            GetActorLocation()+WheelRotation.Vector()*100,
+            FColor(255,0,255), // color
+            true, //persitent
+            1.,// lifetime
+            1,// depth priority
+            20 // thickness
+            );
+        // distance
 }
 
 void Awheel::DriveWheel(float DriveSpeed)
@@ -65,3 +74,14 @@ void Awheel::FindComponents(UStaticMeshComponent* Wheel, UStaticMeshComponent* C
   this->Cube = Cube;
 }
 
+void Awheel::ApplyBrakes()
+{
+
+  UE_LOG(LogTemp, Warning, TEXT("%s Awheel:: APPLY BRAKES for real 999"), *GetName());
+
+  FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
+  Wheel->AddTorqueInRadians(SpeedScalar*ForwardVec*(-10000), FName("None"), 1);
+  UE_LOG(LogTemp, Warning, TEXT("SetRelativeRotation"));
+  // Wheel->SetRelativeRotation(FRotator(0,0,0));
+
+}

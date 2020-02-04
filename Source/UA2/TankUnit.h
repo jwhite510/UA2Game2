@@ -44,7 +44,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
         UFUNCTION(BluePrintCallable, Category="Control")
-        void ControlWheels(float ForwardValue, float RightValue);
+        void ControlWheels(float ForwardValue, float RightValue, bool Brake);
 
         UFUNCTION(BluePrintCallable, Category="Print")
         void PrintActors(TArray<AActor*> ActorArray);

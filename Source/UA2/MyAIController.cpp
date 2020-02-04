@@ -32,15 +32,28 @@ void AMyAIController::Tick(float DeltaTime)
       AMovementWaypoint* ChildMovementWaypoint = Cast<AMovementWaypoint>(_Actor);
       if(ChildMovementWaypoint!=nullptr)
       {
+
+        // if distance is less than something
+        float DistanceToWaypoint = FVector::Dist(GetPawn()->GetActorLocation(), ChildMovementWaypoint->GetActorLocation());
+        UE_LOG(LogTemp, Warning, TEXT("DistanceToWaypoint:%f"), DistanceToWaypoint);
+
+        // apply brakes
+        if(DistanceToWaypoint<300)
+        {
+          ControllerPawn->ControlWheels(0.0, 0.0, 1);
+          FoundWaypoint = 1;
+          break;
+        }
         MoveToActor(ChildMovementWaypoint, 10000);
         FoundWaypoint = 1;
+        break;
       }
     }
     if(!FoundWaypoint)
     {
       StopMovement();
       // dont move wheels
-      ControllerPawn->ControlWheels(0.0, 0.0);
+      ControllerPawn->ControlWheels(0.0, 0.0, 0);
     }
 
     // target and move toward this actor
@@ -77,7 +90,7 @@ void AMyAIController::Tick(float DeltaTime)
       else
       {
         // dont move
-        // ControllerPawn->ControlWheels(0.0, 0.0);
+        // ControllerPawn->ControlWheels(0.0, 0.0, 0);
       }
 
       float DotProd = 0;

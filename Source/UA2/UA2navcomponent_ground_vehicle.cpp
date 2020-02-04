@@ -64,7 +64,7 @@ void UUA2navcomponent_ground_vehicle::RequestDirectMove(const FVector& MoveVeloc
   // UE_LOG(LogTemp, Warning, TEXT("%s DotProductValue:%f"), *ThisVehicle->GetName(), DotProductValue);
 
 
-  Cast<ATankUnit>(ThisVehicle)->ControlWheels(0.5*DotProductValue, CrossProductValue.Z);
+  Cast<ATankUnit>(ThisVehicle)->ControlWheels(0.5*DotProductValue, CrossProductValue.Z, 0);
 }
 void UUA2navcomponent_ground_vehicle::FindActor(AVehicleBase* ThisVehicle_in)
 {

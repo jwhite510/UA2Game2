@@ -87,7 +87,7 @@ void ATankUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
-void ATankUnit::ControlWheels(float ForwardValue, float RightValue)
+void ATankUnit::ControlWheels(float ForwardValue, float RightValue, bool Brake)
 {
 
   float FrontRightWheelValue = 0.0;
@@ -143,10 +143,18 @@ void ATankUnit::ControlWheels(float ForwardValue, float RightValue)
     }
   }
 
+  if(Brake)
+  {
+    FrontRightWheel->ApplyBrakes();
+    FrontLeftWheel->ApplyBrakes();
+    BackRightWheel->ApplyBrakes();
+    BackLeftWheel->ApplyBrakes();
+  }
   FrontRightWheel->DriveWheel(FrontRightWheelValue);
   FrontLeftWheel->DriveWheel(FrontLeftWheelValue);
   BackRightWheel->DriveWheel(BackRightWheelValue);
   BackLeftWheel->DriveWheel(BackLeftWheelValue);
+
 
 }
 void ATankUnit::PrintActors(TArray<AActor*> ActorArray)
