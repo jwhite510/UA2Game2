@@ -26,25 +26,55 @@ void Awheel::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
         FVector CurrentLocation = GetActorLocation();
-
-        // FVector ForwardVec = Wheel->GetForwardVector();
-
         FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
-
-        // UE_LOG(LogTemp, Warning, TEXT("drive forwared"));
-
         Wheel->AddTorqueInRadians(DriveDirection*ForwardVec*TorqueScalar, FName("None"), 1);
 
         // rotation speed
         FRotator WheelRotation = Wheel->GetRelativeRotation();
 
         // get rotation speed
-        FVector RotationVectorNew = WheelRotation.Vector();
-        FVector Distance = RotationVectorNew - RotationVectorOld;
-        SpeedScalar = Distance.Size()*DeltaTime;
-        RotationVectorOld = RotationVectorNew;
-        // UE_LOG(LogTemp, Warning, TEXT("SpeedScalar:%f"), SpeedScalar);
+        RotationVectorNew = WheelRotation.Vector();
 
+
+        // find the angle between vectors
+        float DotProductValue = FVector::DotProduct(RotationVectorNew, RotationVectorOld);
+        DotProductValue *= (1/RotationVectorNew.Size());
+        DotProductValue *= (1/RotationVectorOld.Size());
+        float DAngle = FMath::Acos(DotProductValue);
+        DAngle/=DeltaTime;
+
+        // cross product
+        FVector CrossProductValue = FVector::CrossProduct(RotationVectorNew, RotationVectorOld);
+        CrossProductValue = CrossProductValue.GetSafeNormal();
+
+
+        DotProductValue = FVector::DotProduct(Wheel->GetRightVector(),CrossProductValue);
+        // UE_LOG(LogTemp, Warning, TEXT("%s DotProductValue:%f"), *GetParentActor()->GetName(), DotProductValue);
+        SpeedScalar = DotProductValue*DAngle;
+
+        // UE_LOG(LogTemp, Warning, TEXT("%s SpeedScalar:%f"), *GetParentActor()->GetName(), SpeedScalar);
+
+        DrawDebugLine(
+            GetWorld(),
+            GetActorLocation(),
+            GetActorLocation()+Wheel->GetRightVector()*10,
+            FColor(0,255,0), // color
+            true, //persitent
+            1.,// lifetime
+            1,// depth priority
+            20 // thickness
+            );
+
+        DrawDebugLine(
+            GetWorld(),
+            GetActorLocation(),
+            GetActorLocation()+CrossProductValue*(10)*DAngle,
+            FColor(0,0,255), // color
+            true, //persitent
+            1.,// lifetime
+            1,// depth priority
+            20 // thickness
+            );
 
         DrawDebugLine(
             GetWorld(),
@@ -56,7 +86,12 @@ void Awheel::Tick(float DeltaTime)
             1,// depth priority
             20 // thickness
             );
-        // distance
+
+
+        RotationVectorOld = RotationVectorNew;
+
+
+
 }
 
 void Awheel::DriveWheel(float DriveSpeed)
@@ -67,11 +102,11 @@ void Awheel::DriveWheel(float DriveSpeed)
 
 }
 
-void Awheel::FindComponents(UStaticMeshComponent* Wheel, UStaticMeshComponent* Cube)
+void Awheel::FindComponents(UStaticMeshComponent* WheelIn, UStaticMeshComponent* CubeIn)
 {
   // UE_LOG(LogTemp, Warning, TEXT("FindComponents called"));
-  this->Wheel = Wheel;
-  this->Cube = Cube;
+  this->Wheel = WheelIn;
+  this->Cube = CubeIn;
 }
 
 void Awheel::ApplyBrakes()
@@ -80,8 +115,8 @@ void Awheel::ApplyBrakes()
   UE_LOG(LogTemp, Warning, TEXT("%s Awheel:: APPLY BRAKES for real 999"), *GetName());
 
   FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
-  Wheel->AddTorqueInRadians(SpeedScalar*ForwardVec*(-10000), FName("None"), 1);
-  UE_LOG(LogTemp, Warning, TEXT("SetRelativeRotation"));
+  Wheel->AddTorqueInRadians(SpeedScalar*ForwardVec*(10), FName("None"), 1);
+  // UE_LOG(LogTemp, Warning, TEXT("SetRelativeRotation"));
   // Wheel->SetRelativeRotation(FRotator(0,0,0));
 
 }
