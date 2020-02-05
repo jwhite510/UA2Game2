@@ -39,11 +39,15 @@ public:
 
         TArray<AVehicleBase*> VehiclesOnGridPoint;
 
+        void UpdateHostStationTiles(int32 DeltaTile);
+
   private:
         UMaterialInstanceDynamic* DynamicMaterial;
 
         float CurrentColor = 0.5;
 
         bool IsOwned = 0;
+
+        int OwningTeam = 999;
 
 };

@@ -6,6 +6,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "HostStation.h"
 
 
 
@@ -86,12 +88,19 @@ void ACapturableGridPoint::Tick(float DeltaTime)
       CurrentColor = 0;
       UE_LOG(LogTemp, Warning, TEXT("point captured %f"), CurrentColor);
       IsOwned = 1;
+      // blue team (player)
+      OwningTeam = 1;
+      UpdateHostStationTiles(1);
     }
     else if (CurrentColor>=1)
     {
       CurrentColor = 1;
       UE_LOG(LogTemp, Warning, TEXT("point captured %f"), CurrentColor);
       IsOwned = 1;
+      // red team
+      OwningTeam = 2;
+      UpdateHostStationTiles(1);
+
     }
   }
   // if it is owned
@@ -101,18 +110,20 @@ void ACapturableGridPoint::Tick(float DeltaTime)
     if(VehiclesOnGridPoint.Num()!=0)
     {
       // if the vehicle is an enemy vehicle
-      UE_LOG(LogTemp, Warning, TEXT("CurrentColor %f"), CurrentColor);
-      UE_LOG(LogTemp, Warning, TEXT("ColorTarget %f"), ColorTarget);
+      // UE_LOG(LogTemp, Warning, TEXT("CurrentColor %f"), CurrentColor);
+      // UE_LOG(LogTemp, Warning, TEXT("ColorTarget %f"), ColorTarget);
 
       if(ColorTarget==1 && CurrentColor==0)
       {
         UE_LOG(LogTemp, Warning, TEXT("Begin Capturing %f"), ColorTarget);
         IsOwned = 0;
+        UpdateHostStationTiles(-1);
       }
       else if(ColorTarget==0 && CurrentColor==1)
       {
         UE_LOG(LogTemp, Warning, TEXT("Begin Capturing %f"), ColorTarget);
         IsOwned = 0;
+        UpdateHostStationTiles(-1);
       }
 
 
@@ -166,4 +177,27 @@ AVehicleBase* ACapturableGridPoint::FindOverlappingVehicle(AActor* OverlappingAc
 void ACapturableGridPoint::OverLapEnd(AActor* OverlappingActor)
 {
     VehiclesOnGridPoint.Remove(Cast<AVehicleBase>(OverlappingActor));
+}
+void ACapturableGridPoint::UpdateHostStationTiles(int32 DeltaTile)
+{
+
+  TArray<AActor*> HostStations;
+  UGameplayStatics::GetAllActorsOfClass(
+      GetWorld(),
+      AHostStation::StaticClass(),
+      HostStations
+      );
+
+  for(auto& _Actor : HostStations){
+    // UE_LOG(LogTemp, Warning, TEXT("HostStation:%s"), *_Actor->GetName());
+    // UE_LOG(LogTemp, Warning, TEXT("HostStation Team:%i"), Cast<AHostStation>(_Actor)->GetTeam());
+    // UE_LOG(LogTemp, Warning, TEXT("This Tile Team:%i"), OwningTeam);
+
+    if(Cast<AHostStation>(_Actor)->GetTeam() == OwningTeam)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("Update:%i"), DeltaTile);
+      Cast<AHostStation>(_Actor)->OwnedTiles+=DeltaTile;
+      break;
+    }
+  }
 }

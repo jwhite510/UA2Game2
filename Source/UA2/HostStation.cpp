@@ -27,7 +27,7 @@ void AHostStation::Tick(float DeltaTime)
         if((TimeNow - LastIncrementTime) > EnergyIncrementTime)
         {
           LastIncrementTime = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
-          HostStationEnergy+=1;
+          HostStationEnergy+=(1+OwnedTiles);
         }
 
 }

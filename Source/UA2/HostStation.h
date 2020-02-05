@@ -41,8 +41,11 @@ public:
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
         int32 HostStationEnergy=0;
 
-        float EnergyIncrementTime = 0.4; // seconds
+        float EnergyIncrementTime = 1.4; // seconds
 
         float LastIncrementTime=0;
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
+        int32 OwnedTiles;
 
 };
