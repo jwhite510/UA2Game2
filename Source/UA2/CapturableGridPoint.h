@@ -42,7 +42,7 @@ public:
   private:
         UMaterialInstanceDynamic* DynamicMaterial;
 
-        float blend = 0.5;
+        float CurrentColor = 0.5;
 
         bool IsOwned = 0;
 

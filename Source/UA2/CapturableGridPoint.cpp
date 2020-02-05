@@ -57,45 +57,73 @@ void ACapturableGridPoint::Tick(float DeltaTime)
     }
   }
   // the color defaults to being neutral
-  float color_target = 0.5;
+  float ColorTarget = 0.5;
   if(VehiclesOnGridPoint.Num()!=0)
   {
     // calculate weighted average
-    color_target = (0*team1vehicles + 1*team2vehicles);
-    color_target/=VehiclesOnGridPoint.Num();
+    ColorTarget = (0*team1vehicles + 1*team2vehicles);
+    ColorTarget/=VehiclesOnGridPoint.Num();
   }
 
   if(!IsOwned)
   {
-    // set material color_target
-    UE_LOG(LogTemp, Warning, TEXT("%s color_target:%f"), *GetName(), color_target);
-    UE_LOG(LogTemp, Warning, TEXT("%s blend:%f"), *GetName(), blend);
+    // set material ColorTarget
+    // UE_LOG(LogTemp, Warning, TEXT("%s ColorTarget:%f"), *GetName(), ColorTarget);
+    // UE_LOG(LogTemp, Warning, TEXT("%s CurrentColor:%f"), *GetName(), CurrentColor);
 
-    if (color_target < blend)
+    if (ColorTarget < CurrentColor)
     {
-      blend -= 0.1 * DeltaTime;
+      CurrentColor -= 0.1 * DeltaTime;
     }
-    else if (color_target > blend)
+    else if (ColorTarget > CurrentColor)
     {
-      blend += 0.1 * DeltaTime;
+      CurrentColor += 0.1 * DeltaTime;
     }
 
     // check if point has been captured
-    if(blend<=0)
+    if(CurrentColor<=0)
     {
-      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), blend);
+      CurrentColor = 0;
+      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), CurrentColor);
       IsOwned = 1;
     }
-    else if (blend>=1)
+    else if (CurrentColor>=1)
     {
-      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), blend);
+      CurrentColor = 1;
+      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), CurrentColor);
       IsOwned = 1;
     }
   }
+  // if it is owned
+  else
+  {
+    // if there is a vehicle on point
+    if(VehiclesOnGridPoint.Num()!=0)
+    {
+      // if the vehicle is an enemy vehicle
+      UE_LOG(LogTemp, Warning, TEXT("CurrentColor %f"), CurrentColor);
+      UE_LOG(LogTemp, Warning, TEXT("ColorTarget %f"), ColorTarget);
+
+      if(ColorTarget==1 && CurrentColor==0)
+      {
+        UE_LOG(LogTemp, Warning, TEXT("Begin Capturing %f"), ColorTarget);
+        IsOwned = 0;
+      }
+      else if(ColorTarget==0 && CurrentColor==1)
+      {
+        UE_LOG(LogTemp, Warning, TEXT("Begin Capturing %f"), ColorTarget);
+        IsOwned = 0;
+      }
 
 
-  // blend = color;
-  DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), blend);
+    }
+
+  }
+
+
+  // CurrentColor = color;
+  // UE_LOG(LogTemp, Warning, TEXT("setting color CurrentColor:%f"), CurrentColor);
+  DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), CurrentColor);
 }
 
 void ACapturableGridPoint::OverLapBegin(AActor* OverlappingActor)
