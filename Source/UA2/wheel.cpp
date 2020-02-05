@@ -54,38 +54,38 @@ void Awheel::Tick(float DeltaTime)
 
         // UE_LOG(LogTemp, Warning, TEXT("%s SpeedScalar:%f"), *GetParentActor()->GetName(), SpeedScalar);
 
-        DrawDebugLine(
-            GetWorld(),
-            GetActorLocation(),
-            GetActorLocation()+Wheel->GetRightVector()*10,
-            FColor(0,255,0), // color
-            true, //persitent
-            1.,// lifetime
-            1,// depth priority
-            20 // thickness
-            );
+        // DrawDebugLine(
+            // GetWorld(),
+            // GetActorLocation(),
+            // GetActorLocation()+Wheel->GetRightVector()*10,
+            // FColor(0,255,0), // color
+            // true, //persitent
+            // 1.,// lifetime
+            // 1,// depth priority
+            // 20 // thickness
+            // );
 
-        DrawDebugLine(
-            GetWorld(),
-            GetActorLocation(),
-            GetActorLocation()+CrossProductValue*(10)*DAngle,
-            FColor(0,0,255), // color
-            true, //persitent
-            1.,// lifetime
-            1,// depth priority
-            20 // thickness
-            );
+        // DrawDebugLine(
+            // GetWorld(),
+            // GetActorLocation(),
+            // GetActorLocation()+CrossProductValue*(10)*DAngle,
+            // FColor(0,0,255), // color
+            // true, //persitent
+            // 1.,// lifetime
+            // 1,// depth priority
+            // 20 // thickness
+            // );
 
-        DrawDebugLine(
-            GetWorld(),
-            GetActorLocation(),
-            GetActorLocation()+WheelRotation.Vector()*100,
-            FColor(255,0,255), // color
-            true, //persitent
-            1.,// lifetime
-            1,// depth priority
-            20 // thickness
-            );
+        // DrawDebugLine(
+            // GetWorld(),
+            // GetActorLocation(),
+            // GetActorLocation()+WheelRotation.Vector()*100,
+            // FColor(255,0,255), // color
+            // true, //persitent
+            // 1.,// lifetime
+            // 1,// depth priority
+            // 20 // thickness
+            // );
 
 
         RotationVectorOld = RotationVectorNew;
@@ -112,7 +112,7 @@ void Awheel::FindComponents(UStaticMeshComponent* WheelIn, UStaticMeshComponent*
 void Awheel::ApplyBrakes()
 {
 
-  UE_LOG(LogTemp, Warning, TEXT("%s Awheel:: APPLY BRAKES for real 999"), *GetName());
+  // UE_LOG(LogTemp, Warning, TEXT("%s Awheel:: APPLY BRAKES for real 999"), *GetName());
 
   FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
   Wheel->AddTorqueInRadians(SpeedScalar*ForwardVec*(10), FName("None"), 1);

@@ -35,7 +35,7 @@ void AMyAIController::Tick(float DeltaTime)
 
         // if distance is less than something
         float DistanceToWaypoint = FVector::Dist(GetPawn()->GetActorLocation(), ChildMovementWaypoint->GetActorLocation());
-        UE_LOG(LogTemp, Warning, TEXT("DistanceToWaypoint:%f"), DistanceToWaypoint);
+        // UE_LOG(LogTemp, Warning, TEXT("DistanceToWaypoint:%f"), DistanceToWaypoint);
 
         // apply brakes
         if(DistanceToWaypoint<300)

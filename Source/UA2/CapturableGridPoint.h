@@ -42,6 +42,8 @@ public:
   private:
         UMaterialInstanceDynamic* DynamicMaterial;
 
-        float blend;
+        float blend = 0.5;
+
+        bool IsOwned = 0;
 
 };

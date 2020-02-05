@@ -57,15 +57,44 @@ void ACapturableGridPoint::Tick(float DeltaTime)
     }
   }
   // the color defaults to being neutral
-  float color = 0.5;
+  float color_target = 0.5;
   if(VehiclesOnGridPoint.Num()!=0)
   {
-    color = (0*team1vehicles + 1*team2vehicles);
-    color/=VehiclesOnGridPoint.Num();
+    // calculate weighted average
+    color_target = (0*team1vehicles + 1*team2vehicles);
+    color_target/=VehiclesOnGridPoint.Num();
   }
 
-  // set material color
-  blend = color;
+  if(!IsOwned)
+  {
+    // set material color_target
+    UE_LOG(LogTemp, Warning, TEXT("%s color_target:%f"), *GetName(), color_target);
+    UE_LOG(LogTemp, Warning, TEXT("%s blend:%f"), *GetName(), blend);
+
+    if (color_target < blend)
+    {
+      blend -= 0.1 * DeltaTime;
+    }
+    else if (color_target > blend)
+    {
+      blend += 0.1 * DeltaTime;
+    }
+
+    // check if point has been captured
+    if(blend<=0)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), blend);
+      IsOwned = 1;
+    }
+    else if (blend>=1)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("point captured %f"), blend);
+      IsOwned = 1;
+    }
+  }
+
+
+  // blend = color;
   DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), blend);
 }
 
