@@ -30,12 +30,12 @@ void Awheel::Tick(float DeltaTime)
         float SetPoint = 10*DriveDirection;
         SpeedScalar;
 
-        UE_LOG(LogTemp, Warning, TEXT("wheel:%s"), *GetName());
+        // UE_LOG(LogTemp, Warning, TEXT("wheel:%s"), *GetName());
         // UE_LOG(LogTemp, Warning, TEXT("DriveDirection:%f"), DriveDirection);
-        UE_LOG(LogTemp, Warning, TEXT("SpeedScalar:%f"), SpeedScalar);
-        UE_LOG(LogTemp, Warning, TEXT("SetPoint:%f"), SetPoint);
+        // UE_LOG(LogTemp, Warning, TEXT("SpeedScalar:%f"), SpeedScalar);
+        // UE_LOG(LogTemp, Warning, TEXT("SetPoint:%f"), SetPoint);
         float ApplyTorque = (SetPoint-SpeedScalar)*DeltaTime;
-        UE_LOG(LogTemp, Warning, TEXT("Apply:%f"), ApplyTorque);
+        // UE_LOG(LogTemp, Warning, TEXT("Apply:%f"), ApplyTorque);
 
         FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
 
@@ -67,17 +67,6 @@ void Awheel::FindComponents(UStaticMeshComponent* WheelIn, UStaticMeshComponent*
   this->Cube = CubeIn;
 }
 
-void Awheel::ApplyBrakes()
-{
-
-  UE_LOG(LogTemp, Warning, TEXT("%s Awheel:: APPLY BRAKES for real 999"), *GetName());
-
-  FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
-  Wheel->AddTorqueInRadians((-1)*SpeedScalar*ForwardVec*(10), FName("None"), 1);
-  // UE_LOG(LogTemp, Warning, TEXT("SetRelativeRotation"));
-  // Wheel->SetRelativeRotation(FRotator(0,0,0));
-
-}
 void Awheel::GetRotationSpeed(float DeltaTime)
 {
 
