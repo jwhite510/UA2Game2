@@ -33,12 +33,14 @@ public:
         UStaticMeshComponent* Wheel = nullptr;
         UStaticMeshComponent* Cube = nullptr;
 
-        float TorqueScalar = 100;
+        float TorqueScalar = 300;
 
         float DriveDirection = 0;
 
         UFUNCTION(BluePrintCallable, Category="Setup")
         void ApplyBrakes();
+
+        void GetRotationSpeed(float DeltaTime);
 
         float RotationSpeed = 0;
   private:
