@@ -34,7 +34,7 @@ void Awheel::Tick(float DeltaTime)
         // UE_LOG(LogTemp, Warning, TEXT("DriveDirection:%f"), DriveDirection);
         // UE_LOG(LogTemp, Warning, TEXT("SpeedScalar:%f"), SpeedScalar);
         // UE_LOG(LogTemp, Warning, TEXT("SetPoint:%f"), SetPoint);
-        float ApplyTorque = (SetPoint-SpeedScalar)/DeltaTime;
+        float ApplyTorque = (SetPoint-SpeedScalar);
         // UE_LOG(LogTemp, Warning, TEXT("Apply:%f"), ApplyTorque);
 
         FVector ForwardVec = Cube->GetRightVector().GetSafeNormal();
