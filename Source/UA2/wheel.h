@@ -33,7 +33,7 @@ public:
         UStaticMeshComponent* Wheel = nullptr;
         UStaticMeshComponent* Cube = nullptr;
 
-        float TorqueScalar = 1300;
+        float TorqueScalar = 1.0;
 
         float DriveDirection = 0;
 
