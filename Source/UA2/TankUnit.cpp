@@ -210,15 +210,15 @@ float ATankUnit::AimTowards(FVector AimHere)
   if (FMath::Abs(YawDiff) < 180)
   {
     YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    CurrentRelativeRotation.Yaw -= 40*YawDiff*GetWorld()->DeltaTimeSeconds;
+    CurrentRelativeRotation.Yaw -= 80*YawDiff*GetWorld()->DeltaTimeSeconds;
   }
   else
   {
     YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    CurrentRelativeRotation.Yaw += 40*YawDiff*GetWorld()->DeltaTimeSeconds;
+    CurrentRelativeRotation.Yaw += 80*YawDiff*GetWorld()->DeltaTimeSeconds;
   }
   // adjust barrel elevation
-  CurrentRelativeRotation.Pitch -= 40*FMath::Clamp<float>(ElevationDiff, -1, +1)*GetWorld()->DeltaTimeSeconds;
+  CurrentRelativeRotation.Pitch -= 80*FMath::Clamp<float>(ElevationDiff, -1, +1)*GetWorld()->DeltaTimeSeconds;
   CurrentRelativeRotation.Pitch = FMath::Clamp<float>(CurrentRelativeRotation.Pitch, -10, +10);
   TurretBase->SetRelativeRotation(CurrentRelativeRotation);
 
