@@ -246,6 +246,13 @@ void Ucontroller_ui_widgetc::MoveOrder(FHitResult HitResult)
       SelectedTank->MoveToLocationComponent->CreateMoveMarker(HitResult.Location);
       UE_LOG(LogTemp, Warning, TEXT("move marker to: %s"), *HitResult.Location.ToString());
     }
+    AHostStation* SelectedHostStation = Cast<AHostStation>(SelectedVehicle);
+    if(SelectedHostStation!=nullptr)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("host station create movement waypoint"));
+      SelectedHostStation->MoveToLocationComponent->CreateMoveMarker(HitResult.Location);
+
+    }
   }
 }
 void Ucontroller_ui_widgetc::FindPlayerHostStation(int32 TeamIn)

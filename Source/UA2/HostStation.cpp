@@ -7,6 +7,7 @@
 #include "CanSpawnUnits.h"
 #include "TankUnit.h"
 #include "HostStationNavigationPawn.h"
+#include "MoveToLocationMarker.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
@@ -15,6 +16,9 @@ AHostStation::AHostStation()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+        MoveToLocationComponent = CreateDefaultSubobject<UMoveToLocationMarker>(FName("MoveToLocationComponent"));
+        MoveToLocationComponent->RegisterParent(Cast<AVehicleBase>(this));
+
 }
 // Called when the game starts or when spawned
 void AHostStation::BeginPlay()

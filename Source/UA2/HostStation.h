@@ -8,6 +8,7 @@
 #include "HostStation.generated.h"
 
 class ATankUnit;
+class UMoveToLocationMarker;
 
 UCLASS()
 class UA2_API AHostStation : public AVehicleBase
@@ -49,6 +50,8 @@ public:
         int32 OwnedTiles;
 
         UChildActorComponent* HostSChildNavigationPawn;
+
+        UMoveToLocationMarker* MoveToLocationComponent;
 
 
 };

@@ -9,7 +9,7 @@ void AHostStationNavigationAIControl::Tick(float DeltaTime)
 {
 
   Super::Tick(DeltaTime);
-  UE_LOG(LogTemp, Warning, TEXT("AHostStationNavigationAIControl tick"));
+  // UE_LOG(LogTemp, Warning, TEXT("AHostStationNavigationAIControl tick"));
   // MoveToActor()
 
 }
