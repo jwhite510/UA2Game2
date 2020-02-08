@@ -4,6 +4,7 @@
 #include "HostStationNavigationPawn.h"
 #include "HostStation.h"
 #include "HostStationNavMovementComponent.h"
+#include "HostStationNavigationAIControl.h"
 
 // Sets default values
 AHostStationNavigationPawn::AHostStationNavigationPawn()
@@ -11,6 +12,8 @@ AHostStationNavigationPawn::AHostStationNavigationPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
         NavigationComponent = CreateDefaultSubobject<UHostStationNavMovementComponent>(FName("HostStationNavigationComponent"));
+        // set ai controller class
+        AIControllerClass = AHostStationNavigationAIControl::StaticClass();
 
 }
 
@@ -19,6 +22,8 @@ void AHostStationNavigationPawn::BeginPlay()
 {
 	Super::BeginPlay();
         UE_LOG(LogTemp, Warning, TEXT("HostStationNavigationPawn initialized"));
+        // spawn the ai controller
+        SpawnDefaultController();
 }
 
 // Called every frame
