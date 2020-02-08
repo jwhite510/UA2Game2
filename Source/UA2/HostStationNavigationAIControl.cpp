@@ -5,6 +5,8 @@
 #include "MovementWaypoint.h"
 #include "HostStationNavigationPawn.h"
 #include "HostStation.h"
+#include "TankUnit.h"
+#include "Navigation/PathFollowingComponent.h"
 
 
 
@@ -12,14 +14,13 @@ void AHostStationNavigationAIControl::Tick(float DeltaTime)
 {
 
   Super::Tick(DeltaTime);
-  // UE_LOG(LogTemp, Warning, TEXT("AHostStationNavigationAIControl tick"));
-  // MoveToActor()
+  // UE_LOG(LogTemp, Warning, TEXT("AHostStationNavigationAIControl Tick running"));
   AMovementWaypoint* MovementWaypoint = FindMovementWaypoint();
   if(MovementWaypoint!=nullptr)
   {
-    UE_LOG(LogTemp, Warning, TEXT("found MovementWaypoint %s"), *MovementWaypoint->GetActorLocation().ToString());
+    // UE_LOG(LogTemp, Warning, TEXT("found MovementWaypoint %s"), *MovementWaypoint->GetActorLocation().ToString());
+    MoveToActor(MovementWaypoint, 0);
   }
-
 }
 
 AMovementWaypoint* AHostStationNavigationAIControl::FindMovementWaypoint()

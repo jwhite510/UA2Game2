@@ -9,10 +9,16 @@
 /**
  * 
  */
+class AActor;
+
 UCLASS()
 class UA2_API UHostStationNavMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
 	
         virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
+  public:
+        void FindParent(AActor *ParentIn);
+        AActor* Parent;
 };

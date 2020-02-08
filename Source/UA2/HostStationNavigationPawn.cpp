@@ -5,6 +5,7 @@
 #include "HostStation.h"
 #include "HostStationNavMovementComponent.h"
 #include "HostStationNavigationAIControl.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AHostStationNavigationPawn::AHostStationNavigationPawn()
@@ -12,8 +13,11 @@ AHostStationNavigationPawn::AHostStationNavigationPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
         NavigationComponent = CreateDefaultSubobject<UHostStationNavMovementComponent>(FName("HostStationNavigationComponent"));
+        NavigationComponent->FindParent(this);
         // set ai controller class
         AIControllerClass = AHostStationNavigationAIControl::StaticClass();
+        SceneComponent = CreateDefaultSubobject<USceneComponent>(FName("SceneComponent"));
+        // SetRootComponent(SceneComponent);
 
 }
 
@@ -30,6 +34,23 @@ void AHostStationNavigationPawn::BeginPlay()
 void AHostStationNavigationPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+        if(ParentHostStation!=nullptr)
+        {
+          // SetActorLocation(ParentHostStation->GetActorLocation());
+        }
+
+        // draw a line
+        DrawDebugLine(
+            GetWorld(),
+            GetActorLocation(),
+            GetActorLocation()+FVector(0,0,10),
+            FColor(255,0,0), // color
+            true, //persitent
+            1.,// lifetime
+            1,// depth priority
+            60 // thickness
+            );
 
 }
 

@@ -13,6 +13,7 @@
 #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 #include "TankUnit.h"
 #include "MoveToLocationMarker.h"
+#include "HostStationNavigationPawn.h"
 
 
 

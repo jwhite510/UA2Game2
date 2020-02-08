@@ -8,6 +8,7 @@
 #include "TankUnit.h"
 #include "HostStationNavigationPawn.h"
 #include "MoveToLocationMarker.h"
+#include "Components/ArrowComponent.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
@@ -32,17 +33,27 @@ void AHostStation::BeginPlay()
         HostSChildNavigationPawn->SetChildActorClass(AHostStationNavigationPawn::StaticClass());
         HostSChildNavigationPawn->CreateChildActor();
         Cast<AHostStationNavigationPawn>(HostSChildNavigationPawn->GetChildActor())->RegisterParentHoststation(this);
-
+        HostSChildNavigationPawn->GetChildActor()->SetActorLocation(GetActorLocation());
 }
 void AHostStation::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-        float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
-        if((TimeNow - LastIncrementTime) > EnergyIncrementTime)
-        {
-          LastIncrementTime = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
-          HostStationEnergy+=(1+OwnedTiles);
-        }
+  Super::Tick(DeltaTime);
+  float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+  if((TimeNow - LastIncrementTime) > EnergyIncrementTime)
+  {
+    LastIncrementTime = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
+    HostStationEnergy+=(1+OwnedTiles);
+  }
+
+  FHitResult HitResult;
+  bool HitSomething = GetWorld()->LineTraceSingleByChannel(
+      HitResult, // Out hit
+      ArrowToGround->GetComponentLocation(), // start
+      ArrowToGround->GetComponentLocation()+100000*ArrowToGround->GetForwardVector(),
+      ECollisionChannel::ECC_Visibility);
+
+  // set navigation pawn to this location
+  HostSChildNavigationPawn->GetChildActor()->SetActorLocation(HitResult.Location);
 
 }
 void AHostStation::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

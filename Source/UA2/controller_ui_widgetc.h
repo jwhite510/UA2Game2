@@ -9,6 +9,7 @@
 class AVehicleBase;
 class AUAVehiclePlayerController;
 class AHostStation;
+class AHostStationNavigationPawn;
 
 /**
  * 
@@ -65,6 +66,11 @@ class UA2_API Ucontroller_ui_widgetc : public UUserWidget
 
         UFUNCTION(BluePrintCallable, Category="Setup")
         void FindPlayerHostStation(int32 TeamIn);
+
+        UPROPERTY(EditDefaultsOnly, Category="Spawning")
+        TSubclassOf<AHostStationNavigationPawn> HostStationNavigationPawnBP;
+
+
 
 
 

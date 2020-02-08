@@ -34,4 +34,5 @@ public:
 
         UHostStationNavMovementComponent* NavigationComponent;
 
+        USceneComponent* SceneComponent;
 };

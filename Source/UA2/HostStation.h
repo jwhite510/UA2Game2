@@ -9,6 +9,7 @@
 
 class ATankUnit;
 class UMoveToLocationMarker;
+class UArrowComponent;
 
 UCLASS()
 class UA2_API AHostStation : public AVehicleBase
@@ -52,6 +53,9 @@ public:
         UChildActorComponent* HostSChildNavigationPawn;
 
         UMoveToLocationMarker* MoveToLocationComponent;
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
+        UArrowComponent* ArrowToGround;
 
 
 };
