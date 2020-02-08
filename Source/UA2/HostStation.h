@@ -48,4 +48,7 @@ public:
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
         int32 OwnedTiles;
 
+        UChildActorComponent* HostSChildNavigationPawn;
+
+
 };

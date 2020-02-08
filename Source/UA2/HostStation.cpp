@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "CanSpawnUnits.h"
 #include "TankUnit.h"
+#include "HostStationNavigationPawn.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
@@ -19,6 +20,15 @@ AHostStation::AHostStation()
 void AHostStation::BeginPlay()
 {
 	Super::BeginPlay();
+
+        // create navigation pawn
+        HostSChildNavigationPawn = NewObject<UChildActorComponent>(this);
+        HostSChildNavigationPawn->bEditableWhenInherited = true;
+        HostSChildNavigationPawn->RegisterComponent();
+        HostSChildNavigationPawn->SetChildActorClass(AHostStationNavigationPawn::StaticClass());
+        HostSChildNavigationPawn->CreateChildActor();
+        Cast<AHostStationNavigationPawn>(HostSChildNavigationPawn->GetChildActor())->RegisterParentHoststation(this);
+
 }
 void AHostStation::Tick(float DeltaTime)
 {
