@@ -9,6 +9,7 @@
 #include "HostStationNavigationPawn.h"
 #include "MoveToLocationMarker.h"
 #include "Components/ArrowComponent.h"
+#include "TurretComponent.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
@@ -19,6 +20,7 @@ AHostStation::AHostStation()
 	PrimaryActorTick.bCanEverTick = true;
         MoveToLocationComponent = CreateDefaultSubobject<UMoveToLocationMarker>(FName("MoveToLocationComponent"));
         MoveToLocationComponent->RegisterParent(Cast<AVehicleBase>(this));
+        TurretComponent = CreateDefaultSubobject<UTurretComponent>(FName("TurretComponent"));
 
 }
 // Called when the game starts or when spawned
@@ -92,4 +94,13 @@ void AHostStation::MoveToTargetHeight(FVector GroundLocation)
   {
     SetActorLocation(GetActorLocation()+FVector(0,0,-1));
   }
+}
+void AHostStation::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in)
+{
+  this->TurretComponent->TurretBase = TurretBase_in;
+  this->TurretComponent->Barrel = Barrel_in;
+  this->TurretComponent->MinPitch = -80;
+  this->TurretComponent->MaxPitch = 80;
+  this->TurretComponent->ParentActor = this;
+  this->TurretComponent->ProjectileBluePrint = ProjectileBluePrint;
 }

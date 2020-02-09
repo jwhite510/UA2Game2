@@ -5,11 +5,13 @@
 #include "CoreMinimal.h"
 #include "VehicleBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
 #include "HostStation.generated.h"
 
 class ATankUnit;
 class UMoveToLocationMarker;
 class UArrowComponent;
+class UTurretComponent;
 
 UCLASS()
 class UA2_API AHostStation : public AVehicleBase
@@ -61,5 +63,12 @@ public:
 
         void MoveToTargetHeight(FVector GroundLocation);
 
+        UTurretComponent* TurretComponent;
+
+        UFUNCTION(BluePrintCallable, Category="Setup")
+        void FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in);
+
+        UPROPERTY(EditDefaultsOnly, Category="Setup")
+        TSubclassOf<AActor> ProjectileBluePrint;
 
 };

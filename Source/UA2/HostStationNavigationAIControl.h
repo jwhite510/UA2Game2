@@ -21,6 +21,9 @@ class UA2_API AHostStationNavigationAIControl : public AAIController
         AMovementWaypoint* FindMovementWaypoint();
 
 
+        float LastFireTime=0;
+
+
 
 
 	
