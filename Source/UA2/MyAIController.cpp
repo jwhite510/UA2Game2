@@ -107,9 +107,9 @@ void AMyAIController::Tick(float DeltaTime)
       float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
       if(TimeNow > (LastFireTime+3) && bHaveAimSolution && (DotProd>0.8))
       {
-        // ControllerPawn->FireCannon();
+        ControllerPawn->TurretComponent->FireCannon();
         LastFireTime = TimeNow;
-        // UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
+        UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
       }
     }
 

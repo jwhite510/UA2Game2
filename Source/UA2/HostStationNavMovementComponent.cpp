@@ -20,7 +20,7 @@ void UHostStationNavMovementComponent::RequestDirectMove(const FVector& MoveVelo
       FVector MoveDirection = ThisHostStation->GetActorLocation();
       FVector _MoveVelocity = MoveVelocity;
       _MoveVelocity.Z = 0;
-      MoveDirection+=(5.5*_MoveVelocity.GetSafeNormal());
+      MoveDirection+=(0.5*_MoveVelocity.GetSafeNormal());
       ThisHostStation->SetActorLocation(MoveDirection);
 
 
