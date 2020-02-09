@@ -10,6 +10,7 @@
 #include "MoveToLocationMarker.h"
 #include "MovementWaypoint.h"
 #include "UA2navcomponent_ground_vehicle.h"
+#include "TurretComponent.h"
 
 // Sets default values
 ATankUnit::ATankUnit()
@@ -20,6 +21,7 @@ ATankUnit::ATankUnit()
         MoveToLocationComponent = CreateDefaultSubobject<UMoveToLocationMarker>(FName("MoveToLocationComponent"));
         MoveToLocationComponent->RegisterParent(Cast<AVehicleBase>(this));
         NavigationComponent = CreateDefaultSubobject<UUA2navcomponent_ground_vehicle>(FName("NavigationComponent"));
+        TurretComponent = CreateDefaultSubobject<UTurretComponent>(FName("TurretComponent"));
 }
 // Called when the game starts or when spawned
 void ATankUnit::BeginPlay()
@@ -66,20 +68,6 @@ void ATankUnit::Tick(float DeltaTime)
 
         // UE_LOG(LogTemp, Warning, TEXT("HitResult: "), *HitResult.TraceEnd.ToString());
 
-        // draw a debug line
-        // FVector ForwardDirection = Barrel->GetRightVector();
-        // FVector ForwardDirection = Barrel->GetUpVector();
-        // FVector WorldLocation = Barrel->GetComponentLocation();
-        // DrawDebugLine(
-        //     GetWorld(),
-        //     WorldLocation+( -50*ForwardDirection ),
-        //     WorldLocation+( -100*ForwardDirection ),
-        //     FColor(255,0,255), // color
-        //     true, //persitent
-        //     1.,// lifetime
-        //     1,// depth priority
-        //     20 // thickness
-        //     );
 
 }
 // Called to bind functionality to input
@@ -196,40 +184,18 @@ void ATankUnit::SwitchPawn()
   // PlayerController->Possess()
   // APlayerController
 }
-float ATankUnit::AimTowards(FVector AimHere)
-{
-  // UE_LOG(LogTemp, Warning, TEXT("ATankUnit move aim towards %s"), *AimHere.ToString());
 
-  FVector BarrelDirection = TurretBase->GetForwardVector();
-  float DotProductValue = FVector::DotProduct(AimHere, BarrelDirection);
-  float YawDiff = BarrelDirection.Rotation().Yaw - AimHere.Rotation().Yaw;
-  float ElevationDiff = BarrelDirection.Rotation().Pitch - AimHere.Rotation().Pitch;
-  // UE_LOG(LogTemp, Warning, TEXT("new new"), YawDiff);
-
-  FRotator CurrentRelativeRotation = TurretBase->GetRelativeRotation();
-  if (FMath::Abs(YawDiff) < 180)
-  {
-    YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    CurrentRelativeRotation.Yaw -= 80*YawDiff*GetWorld()->DeltaTimeSeconds;
-  }
-  else
-  {
-    YawDiff = FMath::Clamp<float>(YawDiff, -1, +1);
-    CurrentRelativeRotation.Yaw += 80*YawDiff*GetWorld()->DeltaTimeSeconds;
-  }
-  // adjust barrel elevation
-  CurrentRelativeRotation.Pitch -= 80*FMath::Clamp<float>(ElevationDiff, -1, +1)*GetWorld()->DeltaTimeSeconds;
-  CurrentRelativeRotation.Pitch = FMath::Clamp<float>(CurrentRelativeRotation.Pitch, -10, +10);
-  TurretBase->SetRelativeRotation(CurrentRelativeRotation);
-
-  return DotProductValue;
-
-}
 
 void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in, Awheel* FrontRightWheel_in, Awheel* FrontLeftWheel_in, Awheel* BackRightWheel_in, Awheel* BackLeftWheel_in)
 {
-  this->TurretBase = TurretBase_in;
-  this->Barrel = Barrel_in;
+  this->TurretComponent->TurretBase = TurretBase_in;
+  this->TurretComponent->Barrel = Barrel_in;
+  this->TurretComponent->ParentActor = this;
+  this->TurretComponent->ProjectileBluePrint = ProjectileBluePrint;
+  this->TurretComponent->MinPitch = -80;
+  this->TurretComponent->MaxPitch = 80;
+
+
   this->FrontRightWheel = FrontRightWheel_in;
   this->FrontLeftWheel = FrontLeftWheel_in;
   this->BackRightWheel = BackRightWheel_in;
@@ -245,7 +211,7 @@ void ATankUnit::HandleLeftMouseClick()
   }
   else
   {
-    FireCannon();
+    TurretComponent->FireCannon();
   }
 
 }
@@ -264,22 +230,4 @@ void ATankUnit::Reposess()
   ThisAIController->Possess(this);
 
 
-}
-void ATankUnit::FireCannon()
-{
-  FVector ForwardDirection = Barrel->GetUpVector();
-  FVector WorldLocation = Barrel->GetComponentLocation();
-
-  AActor* Projectile = GetWorld()->SpawnActor<AActor>(
-      ProjectileBluePrint,
-      WorldLocation+(-150*ForwardDirection),
-      FRotator(0,0,0)
-      );
-
-  UStaticMeshComponent* ProjectileMesh = Projectile->FindComponentByClass<UStaticMeshComponent>();
-
-
-  FVector PawnVelocity = GetVelocity();
-  FVector ProjectileVelocity=((-1000*ForwardDirection)+PawnVelocity);
-  ProjectileMesh->SetPhysicsLinearVelocity(ProjectileVelocity,true);
 }

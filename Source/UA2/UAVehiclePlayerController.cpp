@@ -7,6 +7,7 @@
 #include "TankUnit.h"
 #include "HostStation.h"
 #include "controller_ui_widgetc.h"
+#include "TurretComponent.h"
 
 
 
@@ -46,7 +47,7 @@ void AUAVehiclePlayerController::Tick(float DeltaTime)
         if(ControlledVehicle != nullptr)
         {
 
-          ControlledVehicle->AimTowards(Rotation);
+          ControlledVehicle->TurretComponent->AimTowards(Rotation);
 
           // if the cursor is shown, draw debug line
           if(bShowMouseCursor == 1)

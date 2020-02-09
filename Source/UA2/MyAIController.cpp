@@ -7,6 +7,7 @@
 #include "MovementWaypoint.h"
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "TurretComponent.h"
 
 void AMyAIController::Tick(float DeltaTime)
 {
@@ -64,8 +65,8 @@ void AMyAIController::Tick(float DeltaTime)
       FVector AimDirection = TargetLocation - ThisPawnLocation;
 
       FVector OutLaunchVelocity(0);
-      FVector StartLocation=Cast<ATankUnit>(GetPawn())->Barrel->GetComponentLocation();
-      StartLocation+=(Cast<ATankUnit>(GetPawn())->Barrel->GetUpVector())*(-150);
+      FVector StartLocation=Cast<ATankUnit>(GetPawn())->TurretComponent->Barrel->GetComponentLocation();
+      StartLocation+=(Cast<ATankUnit>(GetPawn())->TurretComponent->Barrel->GetUpVector())*(-150);
       bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
           this,
           OutLaunchVelocity,
@@ -96,11 +97,11 @@ void AMyAIController::Tick(float DeltaTime)
       float DotProd = 0;
       if(bHaveAimSolution)
       {
-        DotProd = ControllerPawn->AimTowards(OutLaunchVelocity.GetSafeNormal());
+        DotProd = ControllerPawn->TurretComponent->AimTowards(OutLaunchVelocity.GetSafeNormal());
       }
       else
       {
-        ControllerPawn->AimTowards(AimDirection);
+        ControllerPawn->TurretComponent->AimTowards(AimDirection);
       }
 
       float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());

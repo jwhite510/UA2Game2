@@ -18,6 +18,7 @@ class AMyAIController;
 class Awheel;
 class UMoveToLocationMarker;
 class UUA2navcomponent_ground_vehicle;
+class UTurretComponent;
 /**
  * 
  */
@@ -58,10 +59,7 @@ public:
         UFUNCTION(BluePrintCallable, Category="Debug")
         void SwitchPawn();
 
-        float AimTowards(FVector AimHere);
-
-        UStaticMeshComponent* TurretBase = nullptr;
-        UStaticMeshComponent* Barrel = nullptr;
+        UTurretComponent* TurretComponent;
 
         Awheel* FrontRightWheel = nullptr;
         Awheel* FrontLeftWheel = nullptr;
@@ -91,5 +89,4 @@ public:
         UUA2navcomponent_ground_vehicle* NavigationComponent;
 
 
-        void FireCannon();
 };
