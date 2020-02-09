@@ -258,6 +258,7 @@ void Ucontroller_ui_widgetc::MoveOrder(FHitResult HitResult)
 }
 void Ucontroller_ui_widgetc::FindPlayerHostStation(int32 TeamIn)
 {
+  UE_LOG(LogTemp, Warning, TEXT("FindPlayerHostStation called"));
   TArray<AActor*> ActorsFound;
   UGameplayStatics::GetAllActorsOfClass(
       GetWorld(),

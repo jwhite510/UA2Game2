@@ -19,7 +19,15 @@ void AHostStationNavigationAIControl::Tick(float DeltaTime)
   if(MovementWaypoint!=nullptr)
   {
     // UE_LOG(LogTemp, Warning, TEXT("found MovementWaypoint %s"), *MovementWaypoint->GetActorLocation().ToString());
-    MoveToActor(MovementWaypoint, 0);
+    float Distance = FVector::Dist(GetPawn()->GetActorLocation(), MovementWaypoint->GetActorLocation());
+    if (Distance>10.0)
+    {
+      MoveToActor(MovementWaypoint, 10);
+    }
+    else
+    {
+      StopMovement();
+    }
   }
 }
 

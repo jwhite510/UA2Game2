@@ -55,6 +55,9 @@ void AHostStation::Tick(float DeltaTime)
   // set navigation pawn to this location
   HostSChildNavigationPawn->GetChildActor()->SetActorLocation(HitResult.Location);
 
+  // adjust floating height
+  MoveToTargetHeight(HitResult.Location);
+
 }
 void AHostStation::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -74,5 +77,19 @@ void AHostStation::HandleLeftMouseClick()
       HostStationEnergy-=10;
     }
 
+  }
+}
+void AHostStation::MoveToTargetHeight(FVector GroundLocation)
+{
+  float CurrentHeight = FVector::Dist(GetActorLocation(), GroundLocation);
+  float DeltaHeight = TargetFloatingHeight - CurrentHeight;
+
+  if(DeltaHeight>3)
+  {
+    SetActorLocation(GetActorLocation()+FVector(0,0,1));
+  }
+  else if (DeltaHeight<-3)
+  {
+    SetActorLocation(GetActorLocation()+FVector(0,0,-1));
   }
 }

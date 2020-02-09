@@ -57,5 +57,9 @@ public:
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="HostStation")
         UArrowComponent* ArrowToGround;
 
+        float TargetFloatingHeight = 1000;
+
+        void MoveToTargetHeight(FVector GroundLocation);
+
 
 };
