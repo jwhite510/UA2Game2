@@ -186,13 +186,13 @@ void ATankUnit::SwitchPawn()
 }
 
 
-void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in, Awheel* FrontRightWheel_in, Awheel* FrontLeftWheel_in, Awheel* BackRightWheel_in, Awheel* BackLeftWheel_in)
+void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshComponent* Barrel_in, Awheel* FrontRightWheel_in, Awheel* FrontLeftWheel_in, Awheel* BackRightWheel_in, Awheel* BackLeftWheel_in, AActor* FirstPersonCameraIn)
 {
   this->TurretComponent->TurretBase = TurretBase_in;
   this->TurretComponent->Barrel = Barrel_in;
   this->TurretComponent->ParentActor = this;
   this->TurretComponent->ProjectileBluePrint = ProjectileBluePrint;
-  this->TurretComponent->MinPitch = -80;
+  this->TurretComponent->MinPitch = -20;
   this->TurretComponent->MaxPitch = 80;
 
 
@@ -200,6 +200,8 @@ void ATankUnit::FindComponents(UStaticMeshComponent* TurretBase_in, UStaticMeshC
   this->FrontLeftWheel = FrontLeftWheel_in;
   this->BackRightWheel = BackRightWheel_in;
   this->BackLeftWheel = BackLeftWheel_in;
+
+  this->FirstPersonCamera = FirstPersonCameraIn;
 }
 void ATankUnit::HandleLeftMouseClick()
 {
@@ -230,4 +232,27 @@ void ATankUnit::Reposess()
   ThisAIController->Possess(this);
 
 
+}
+void ATankUnit::SwitchCameraView()
+{
+
+  APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+  if(!InFirstPersonView)
+  {
+    PlayerController->SetViewTargetWithBlend(FirstPersonCamera);
+    InFirstPersonView = 1;
+  }
+  else
+  {
+    PlayerController->SetViewTargetWithBlend(this);
+    InFirstPersonView = 0;
+  }
+}
+void ATankUnit::SetCameraToCurrentView()
+{
+  APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+  if(InFirstPersonView)
+  {
+    PlayerController->SetViewTargetWithBlend(FirstPersonCamera);
+  }
 }

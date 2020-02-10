@@ -47,7 +47,10 @@ void AUAVehiclePlayerController::Tick(float DeltaTime)
         if(ControlledVehicle != nullptr)
         {
 
-          ControlledVehicle->TurretComponent->AimTowards(Rotation);
+          if(!ControlledVehicle->InFirstPersonView)
+          {
+            ControlledVehicle->TurretComponent->AimTowards(Rotation);
+          }
 
           // if the cursor is shown, draw debug line
           if(bShowMouseCursor == 1)
@@ -147,4 +150,19 @@ void AUAVehiclePlayerController::ClickWorld(FString Button)
     UE_LOG(LogTemp, Warning, TEXT("right button clicked"));
     ControllerUIWidget->MoveOrder(HitResult);
   }
+}
+void AUAVehiclePlayerController::OnPossess(APawn* InPawn)
+{
+  Super::OnPossess(InPawn);
+  // if the possessed pawn is a tank, set its view to what it was
+  // (third or first person)
+
+  if(Cast<ATankUnit>(InPawn)!=nullptr)
+  {
+    Cast<ATankUnit>(InPawn)->SetCameraToCurrentView();
+    UE_LOG(LogTemp, Warning, TEXT("SetCameraToCurrentView running"));
+  }
+
+
+
 }

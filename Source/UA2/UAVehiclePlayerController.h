@@ -43,6 +43,7 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
 
         void ClickWorld(FString Button);
 
+        virtual void OnPossess(APawn* InPawn) override;
 
 
 };

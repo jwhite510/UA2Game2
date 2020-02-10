@@ -44,6 +44,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+        UFUNCTION(BluePrintCallable, Category="Camera")
+        void SetCameraToCurrentView();
+
         UFUNCTION(BluePrintCallable, Category="Control")
         void ControlWheels(float ForwardValue, float RightValue);
 
@@ -59,6 +62,7 @@ public:
         UFUNCTION(BluePrintCallable, Category="Debug")
         void SwitchPawn();
 
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Something")
         UTurretComponent* TurretComponent;
 
         Awheel* FrontRightWheel = nullptr;
@@ -67,7 +71,7 @@ public:
         Awheel* BackLeftWheel = nullptr;
 
         UFUNCTION(BluePrintCallable, Category="Setup")
-        void FindComponents(UStaticMeshComponent* TurretBase, UStaticMeshComponent* Barrel, Awheel* FrontRightWheel, Awheel* FrontLeftWheel, Awheel* BackRightWheel, Awheel* BackLeftWheel);
+        void FindComponents(UStaticMeshComponent* TurretBase, UStaticMeshComponent* Barrel, Awheel* FrontRightWheel, Awheel* FrontLeftWheel, Awheel* BackRightWheel, Awheel* BackLeftWheel, AActor* FirstPersonCamera);
 
         UFUNCTION(BluePrintCallable, Category="Input")
         void HandleLeftMouseClick();
@@ -83,6 +87,15 @@ public:
 
         // move to location component
         UMoveToLocationMarker* MoveToLocationComponent;
+
+
+        UFUNCTION(BluePrintCallable, Category="Control")
+        void SwitchCameraView();
+
+        AActor* FirstPersonCamera;
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Something")
+        bool InFirstPersonView = 0;
 
 
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Something")

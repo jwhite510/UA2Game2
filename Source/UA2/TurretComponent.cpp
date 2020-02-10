@@ -80,3 +80,21 @@ float UTurretComponent::AimTowards(FVector AimHere)
   return DotProductValue;
 
 }
+void UTurretComponent::ManualAim(float YValue, float XValue)
+{
+
+  // UE_LOG(LogTemp, Warning, TEXT("ManualAim"));
+  // UE_LOG(LogTemp, Warning, TEXT("YValue:%f, XValue:%f"), YValue, XValue);
+  FVector BarrelDirection = TurretBase->GetForwardVector();
+  // UE_LOG(LogTemp, Warning, TEXT("BarrelDirectionBefore:%s"), *BarrelDirection.ToString());
+
+  FRotator BarrelRotation = BarrelDirection.Rotation();
+  BarrelRotation.Yaw+=XValue;
+  BarrelRotation.Pitch+=YValue;
+
+  BarrelDirection = BarrelRotation.Vector();
+  // UE_LOG(LogTemp, Warning, TEXT("BarrelDirectionAfter:%s"), *BarrelDirection.ToString());
+
+  AimTowards(BarrelDirection);
+
+}

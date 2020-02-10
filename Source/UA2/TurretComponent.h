@@ -33,6 +33,9 @@ public:
 
         float AimTowards(FVector AimHere);
 
+        UFUNCTION(BluePrintCallable, Category="Control")
+        void ManualAim(float YValue, float XValue);
+
         float MinPitch = -10;
         float MaxPitch = 10;
 
