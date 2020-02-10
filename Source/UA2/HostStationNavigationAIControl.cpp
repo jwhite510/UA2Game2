@@ -81,7 +81,7 @@ void AHostStationNavigationAIControl::Tick(float DeltaTime)
         OutLaunchVelocity,
         StartLocation,
         TargetActor->GetActorLocation(),
-        100000,
+        10000,
         false,
         0,
         0,

@@ -49,7 +49,7 @@ void AUAVehiclePlayerController::Tick(float DeltaTime)
 
           if(!ControlledVehicle->InFirstPersonView)
           {
-            ControlledVehicle->TurretComponent->AimTowards(Rotation);
+            // ControlledVehicle->TurretComponent->AimTowards(Rotation);
           }
 
           // if the cursor is shown, draw debug line

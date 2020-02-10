@@ -72,7 +72,7 @@ void AMyAIController::Tick(float DeltaTime)
           OutLaunchVelocity,
           StartLocation,
           TargetLocation,
-          1000,
+          10000,
           false,
           0,
           0,

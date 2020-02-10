@@ -47,7 +47,7 @@ void UTurretComponent::FireCannon()
 
 
   FVector PawnVelocity = ParentActor->GetVelocity();
-  FVector ProjectileVelocity=((-1000*ForwardDirection)+PawnVelocity);
+  FVector ProjectileVelocity=((-10000*ForwardDirection)+PawnVelocity);
   ProjectileMesh->SetPhysicsLinearVelocity(ProjectileVelocity,true);
 }
 
