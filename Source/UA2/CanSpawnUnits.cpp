@@ -86,3 +86,18 @@ void UCanSpawnUnits::SpawnThingAtLocation()
     SpawnedActor->RememberAIController(ThisAIController);
   }
 }
+void UCanSpawnUnits::AISpawnThingAtLocation(FVector SpawnLocation)
+{
+  ATankUnit* SpawnedActor = GetWorld()->SpawnActor<ATankUnit>(
+      TankUnitBP,
+      SpawnLocation+FVector(0,0,300),
+      FRotator(0,0,0)
+      );
+  AVehicleBase* ThisVehicle = Cast<AVehicleBase>(GetOwner());
+  SpawnedActor->SetTeam(ThisVehicle->Team);
+  SpawnedActor->SetWidgetTeam();
+  SpawnedActor->SpawnDefaultController();
+  // destroy the spawn point actor
+  AAIController* ThisAIController = Cast<AAIController>( SpawnedActor->GetController() );
+  SpawnedActor->RememberAIController(ThisAIController);
+}

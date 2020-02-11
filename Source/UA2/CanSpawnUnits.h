@@ -32,5 +32,8 @@ public:
 
         UPROPERTY(EditDefaultsOnly, Category="Spawning")
         TSubclassOf<ATankUnit> TankUnitBP;
-		
+
+
+        void AISpawnThingAtLocation(FVector SpawnLocation);
+
 };
