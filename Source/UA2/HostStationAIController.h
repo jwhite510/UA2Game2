@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "HostStationAIController.generated.h"
 
+class ATankUnit;
+class AHostStation;
 /**
  * 
  */
@@ -18,5 +20,12 @@ class UA2_API AHostStationAIController : public AAIController
         virtual void Tick(float DeltaTime) override;
 
 	virtual void BeginPlay() override;
-	
+
+        int32 ThisTeam;
+
+        TArray<ATankUnit*> GetTankUnitsOnThisTeam();
+
+        AHostStation* ThisHostStation;
+
+        void SpawnTank();
 };
