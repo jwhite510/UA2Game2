@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "VehicleBase.generated.h"
 
-class AMyAIController;
+class AAIController;
 
 UCLASS()
 class UA2_API AVehicleBase : public APawn
@@ -36,9 +36,9 @@ public:
         void SetWidgetTeam();
 
 
-        void RememberAIController(AMyAIController* _ThisAiController);
+        void RememberAIController(AAIController* _ThisAiController);
 
-        AMyAIController* ThisAIController=nullptr;
+        AAIController* ThisAIController=nullptr;
 
 public:
         int32 Team=999;

@@ -80,7 +80,7 @@ public:
         TSubclassOf<AActor> ProjectileBluePrint;
 
 
-        AMyAIController* ThisAIController=nullptr;
+        // AMyAIController* ThisAIController=nullptr;
 
         UFUNCTION(BluePrintCallable, Category="Possession")
         void Reposess();

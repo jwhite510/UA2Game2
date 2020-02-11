@@ -4,7 +4,7 @@
 #include "CanSpawnUnits.h"
 #include "DrawDebugHelpers.h"
 #include "TankUnit.h"
-#include "MyAIController.h"
+#include "AIController.h"
 #include "VehicleBase.h"
 
 // Sets default values for this component's properties
@@ -82,7 +82,7 @@ void UCanSpawnUnits::SpawnThingAtLocation()
     SpawnedActor->SetWidgetTeam();
     SpawnedActor->SpawnDefaultController();
     // destroy the spawn point actor
-    AMyAIController* ThisAIController = Cast<AMyAIController>( SpawnedActor->GetController() );
+    AAIController* ThisAIController = Cast<AAIController>( SpawnedActor->GetController() );
     SpawnedActor->RememberAIController(ThisAIController);
   }
 }

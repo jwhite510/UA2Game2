@@ -225,7 +225,7 @@ void ATankUnit::Reposess()
   {
     SpawnDefaultController();
     UE_LOG(LogTemp, Warning, TEXT("SpawnDefaultController called"));
-    ThisAIController = Cast<AMyAIController>( GetController() );
+    ThisAIController = Cast<AAIController>( GetController() );
 
   }
   UE_LOG(LogTemp, Warning, TEXT("repossess called %s"), *ThisAIController->GetName());

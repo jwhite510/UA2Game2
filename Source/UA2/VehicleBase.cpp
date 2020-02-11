@@ -35,7 +35,7 @@ void AVehicleBase::SetTeam(int32 Team)
   this->Team = Team;
   Tags.Add(FName("vehicletag"));
 }
-void AVehicleBase::RememberAIController(AMyAIController* _ThisAiController)
+void AVehicleBase::RememberAIController(AAIController* _ThisAiController)
 {
   ThisAIController = _ThisAiController;
   UE_LOG(LogTemp, Warning, TEXT("remembering ai controller: %s"), *ThisAIController->GetName());

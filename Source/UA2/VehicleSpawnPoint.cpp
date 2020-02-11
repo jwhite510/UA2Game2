@@ -6,6 +6,7 @@
 #include "MyAIController.h"
 #include "VehicleBase.h"
 #include "CanSpawnUnits.h"
+#include "AIController.h"
 
 // Sets default values
 AVehicleSpawnPoint::AVehicleSpawnPoint()
@@ -42,7 +43,7 @@ void AVehicleSpawnPoint::Spawn()
         SpawnedActor->SetWidgetTeam();
         SpawnedActor->SpawnDefaultController();
         // // // destroy the spawn point actor
-        AMyAIController* ThisAIController = Cast<AMyAIController>( SpawnedActor->GetController() );
+        AAIController* ThisAIController = Cast<AAIController>( SpawnedActor->GetController() );
         SpawnedActor->RememberAIController(ThisAIController);
 
 

@@ -10,6 +10,8 @@
 #include "MoveToLocationMarker.h"
 #include "Components/ArrowComponent.h"
 #include "TurretComponent.h"
+#include "HostStationAIController.h"
+#include "MyAIController.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 
@@ -21,6 +23,7 @@ AHostStation::AHostStation()
         MoveToLocationComponent = CreateDefaultSubobject<UMoveToLocationMarker>(FName("MoveToLocationComponent"));
         MoveToLocationComponent->RegisterParent(Cast<AVehicleBase>(this));
         TurretComponent = CreateDefaultSubobject<UTurretComponent>(FName("TurretComponent"));
+        AIControllerClass = AHostStationAIController::StaticClass();
 
 }
 // Called when the game starts or when spawned
