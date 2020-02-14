@@ -8,6 +8,8 @@
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "CanSpawnUnits.h"
+#include "MyAIController.h"
+#include "MoveToLocationMarker.h"
 
 void AHostStationAIController::Tick(float DeltaTime)
 {
@@ -22,17 +24,47 @@ void AHostStationAIController::Tick(float DeltaTime)
     {
       // destroy this controller beause this host station belongs to the player
       Destroy();
+      return;
     }
 
     // UE_LOG(LogTemp, Warning, TEXT("remove actors from other team"));
+    // tmap units
     TArray<ATankUnit*> TanksOnThisTeam = GetTankUnitsOnThisTeam();
     for(auto& _Actor : TanksOnThisTeam)
     {
-      UE_LOG(LogTemp, Warning, TEXT("_Actor:%s"), *_Actor->GetName());
+      if(!VehicleStatusTMap.Contains(_Actor))
+      {
+        VehicleStatusTMap.Add(_Actor, VehicleStatus::Idle);
+      }
     }
 
+    if(GetPawn()!=nullptr)
+    {
+      // print this host station name
+      // UE_LOG(LogTemp, Warning, TEXT("ThisHostStation: %s"), *GetPawn()->GetName());
+    }
+
+    for(auto& Elem : VehicleStatusTMap)
+    {
+      Elem.Key; // the ATankUnit that needs to be given a command
+      Elem.Value;
+      // if the current status of the vehicle is idle
+      if(Elem.Value == VehicleStatus::Idle)
+      {
+        Elem.Value = VehicleStatus::Attacking;
+      }
+      else if(Elem.Value == VehicleStatus::Attacking)
+      {
+        // UE_LOG(LogTemp, Warning, TEXT("Attacking called"));
+        OrderVehicleAttackNearestEnemy(Elem.Key);
+      }
+
+    }
+
+
+
     // spawn units
-    UE_LOG(LogTemp, Warning, TEXT("HostStationEnergy %i"), ThisHostStation->HostStationEnergy);
+    // UE_LOG(LogTemp, Warning, TEXT("HostStationEnergy %i"), ThisHostStation->HostStationEnergy);
     if(ThisHostStation->HostStationEnergy > 10)
     {
       SpawnTank();
@@ -116,4 +148,14 @@ void AHostStationAIController::SpawnTank()
   HitResult.Location.Z+=300;
   SpawnUnitsComponent->AISpawnThingAtLocation(HitResult.Location);
   ThisHostStation->HostStationEnergy -= 10;
+}
+void AHostStationAIController::OrderVehicleAttackNearestEnemy(ATankUnit* TankUnit)
+{
+  // UE_LOG(LogTemp, Warning, TEXT("OrderVehicleAttackNearestEnemy"));
+  // find location of nearest enemy vehicle
+  AActor* NearestTarget = Cast<AMyAIController>(TankUnit->GetController())->FindNearestTarget();
+  // UE_LOG(LogTemp, Warning, TEXT("AAAAM not calling"));
+  Cast<AMyAIController>(TankUnit->GetController())->MoveToActor(NearestTarget, 100);
+  // target nearest enemy
+  // TankUnit->MoveToLocationComponent->CreateMoveMarker(NearestTarget->GetActorLocation());
 }

@@ -20,10 +20,16 @@ class UA2_API AMyAIController : public AAIController
 
         private:
         virtual void Tick(float DeltaTime) override;
-        AActor* FindTarget(ATankUnit *_ControllerPawn);
+
         float LastFireTime=0;
+        ATankUnit * ControllerPawn;
 
         public:
+        AActor* FindNearestTarget();
+
+        void MoveToWayPoint();
+
+        void AimAndFire(AActor* Target);
 
 
 

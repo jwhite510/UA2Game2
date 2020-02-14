@@ -8,6 +8,18 @@
 
 class ATankUnit;
 class AHostStation;
+
+
+UENUM()
+enum VehicleStatus
+{
+  Idle UMETA(DisplayName = "Idle"),
+  Stopped UMETA(DisplayName = "Stopped"),
+  Moving UMETA(DisplayName = "Moving"),
+  Attacking UMETA(DisplayName = "Attacking")
+};
+
+
 /**
  * 
  */
@@ -28,4 +40,8 @@ class UA2_API AHostStationAIController : public AAIController
         AHostStation* ThisHostStation;
 
         void SpawnTank();
+
+        TMap<ATankUnit*, VehicleStatus> VehicleStatusTMap;
+
+        void OrderVehicleAttackNearestEnemy(ATankUnit* TankUnit);
 };
