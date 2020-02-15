@@ -12,7 +12,7 @@
 
 
 
-int AUAVehiclePlayerController::ToggleMouseCursor()
+int32 AUAVehiclePlayerController::ToggleMouseCursor()
 {
   if (bShowMouseCursor == 1)
   {

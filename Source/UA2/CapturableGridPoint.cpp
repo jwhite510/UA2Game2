@@ -201,3 +201,16 @@ void ACapturableGridPoint::UpdateHostStationTiles(int32 DeltaTile)
     }
   }
 }
+int32 ACapturableGridPoint::GetTeam()
+{
+  if(IsOwned)
+  {
+    return OwningTeam;
+  }
+  else
+  {
+    return 0;
+  }
+
+
+}

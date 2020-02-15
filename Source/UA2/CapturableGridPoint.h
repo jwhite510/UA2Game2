@@ -41,6 +41,8 @@ public:
 
         void UpdateHostStationTiles(int32 DeltaTile);
 
+        int32 GetTeam();
+
   private:
         UMaterialInstanceDynamic* DynamicMaterial;
 
@@ -48,6 +50,6 @@ public:
 
         bool IsOwned = 0;
 
-        int OwningTeam = 999;
+        int32 OwningTeam = 999;
 
 };

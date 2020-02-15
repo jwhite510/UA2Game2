@@ -17,6 +17,6 @@ class UA2_API ALevelGenerator : public ALevelScriptActor
         protected:
 	virtual void BeginPlay() override;
 
-        int LevelGridSize = 10;
+        int32 LevelGridSize = 10;
 	
 };

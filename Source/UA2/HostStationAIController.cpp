@@ -168,7 +168,7 @@ void AHostStationAIController::OrderVehicleAttackNearestEnemy(ATankUnit* TankUni
 }
 void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
 {
-  UE_LOG(LogTemp, Warning, TEXT("%s CaptureNearestTile called"), *TankUnit->GetName());
+  // UE_LOG(LogTemp, Warning, TEXT("%s CaptureNearestTile called"), *TankUnit->GetName());
 
   // find the nearest tile
   TArray<AActor*> ActorsFound;
@@ -186,8 +186,13 @@ void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
     float Distance = FVector::Dist(ThisTileLocation, ThisVehicleLoation);
     if(Distance < ClosestDistance)
     {
-      ClosestDistance = Distance;
-      NearestTile = _Actor;
+      // check if this tile belongs to the vehicle team
+      int32 TileTeam = Cast<ACapturableGridPoint>(_Actor)->GetTeam();
+      if(TileTeam!=TankUnit->Team)
+      {
+        ClosestDistance = Distance;
+        NearestTile = _Actor;
+      }
     }
 
   }
@@ -199,12 +204,13 @@ void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
         NearestTile->GetActorLocation(),
         NearestTile->GetActorLocation()+FVector(0,0,400),
         // 100*(CurrentLocation+ForwardVec),
-        FColor(0,0,255), // color
+        FColor(255,0,0), // color
         true, //persitent
         1.,// lifetime
         1,// depth priority
-        20 // thickness
+        40 // thickness
         );
+    Cast<AMyAIController>(TankUnit->GetController())->MoveToActor(NearestTile, 100);
   }
 
 

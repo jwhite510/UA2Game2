@@ -16,7 +16,7 @@ class UA2_API AUAVehiclePlayerController : public APlayerController
 	GENERATED_BODY()
 
         UFUNCTION(BluePrintCallable, Category="Control")
-        int ToggleMouseCursor();
+        int32 ToggleMouseCursor();
 
 
         public:
