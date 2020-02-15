@@ -160,7 +160,7 @@ void AUAVehiclePlayerController::OnPossess(APawn* InPawn)
   if(Cast<ATankUnit>(InPawn)!=nullptr)
   {
     Cast<ATankUnit>(InPawn)->SetCameraToCurrentView();
-    UE_LOG(LogTemp, Warning, TEXT("SetCameraToCurrentView running"));
+    // UE_LOG(LogTemp, Warning, TEXT("SetCameraToCurrentView running"));
   }
 
 

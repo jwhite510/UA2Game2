@@ -195,7 +195,7 @@ void ACapturableGridPoint::UpdateHostStationTiles(int32 DeltaTile)
 
     if(Cast<AHostStation>(_Actor)->GetTeam() == OwningTeam)
     {
-      UE_LOG(LogTemp, Warning, TEXT("Update:%i"), DeltaTile);
+      // UE_LOG(LogTemp, Warning, TEXT("Update:%i"), DeltaTile);
       Cast<AHostStation>(_Actor)->OwnedTiles+=DeltaTile;
       break;
     }

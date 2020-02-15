@@ -161,7 +161,7 @@ void AMyAIController::AimAndFire(AActor* Target)
   {
     // ControllerPawn->TurretComponent->FireCannon();
     LastFireTime = TimeNow;
-    UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
+    // UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
   }
 }
 void AMyAIController::MoveToActorAndStop(AActor* Target)

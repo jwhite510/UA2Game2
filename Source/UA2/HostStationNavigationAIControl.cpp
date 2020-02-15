@@ -97,7 +97,7 @@ void AHostStationNavigationAIControl::Tick(float DeltaTime)
     float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
     if(TimeNow > (LastFireTime+3) && bHaveAimSolution && (DotProd>0.8))
     {
-      Cast<AHostStationNavigationPawn>(GetPawn())->ParentHostStation->TurretComponent->FireCannon();
+      // Cast<AHostStationNavigationPawn>(GetPawn())->ParentHostStation->TurretComponent->FireCannon();
       LastFireTime = TimeNow;
     }
   }
