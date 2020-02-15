@@ -8,6 +8,8 @@
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "TurretComponent.h"
+#include "HostStation.h"
+#include "HostStationAIController.h"
 
 void AMyAIController::Tick(float DeltaTime)
 {
@@ -16,7 +18,11 @@ void AMyAIController::Tick(float DeltaTime)
   ControllerPawn = Cast<ATankUnit>( GetPawn() );
   if (ControllerPawn != nullptr)
   {
-    // MoveToWayPoint();
+    if(IsOwningHostStationPlayer())
+    {
+      MoveToWayPoint();
+    }
+
     // target and move toward this actor
     AActor* TargetActor = FindNearestTarget();
     if(TargetActor!=nullptr)
@@ -153,8 +159,49 @@ void AMyAIController::AimAndFire(AActor* Target)
   float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
   if(TimeNow > (LastFireTime+3) && bHaveAimSolution && (DotProd>0.8))
   {
-    ControllerPawn->TurretComponent->FireCannon();
+    // ControllerPawn->TurretComponent->FireCannon();
     LastFireTime = TimeNow;
     UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
   }
+}
+void AMyAIController::MoveToActorAndStop(AActor* Target)
+{
+  // if distance is less than something
+  float DistanceToTarget = FVector::Dist(GetPawn()->GetActorLocation(), Target->GetActorLocation());
+
+  // apply brakes
+  if(DistanceToTarget<300)
+  {
+    ControllerPawn->ControlWheels(0.0, 0.0);
+  }
+  else
+  {
+    MoveToActor(Target, 10000);
+  }
+}
+bool AMyAIController::IsOwningHostStationPlayer()
+{
+  // find host station, see if it is on player team
+  TArray<AActor*> ActorsFound;
+  UGameplayStatics::GetAllActorsOfClass(
+      GetWorld(),
+      AHostStation::StaticClass(),
+      ActorsFound
+      );
+    for(auto& _Actor : ActorsFound)
+    {
+      AHostStation* FoundHostStation = Cast<AHostStation>(_Actor);
+      if(ControllerPawn->Team == FoundHostStation->Team)
+      {
+        // check if this host station is controlled by player
+        AHostStationAIController* Controller = Cast<AHostStationAIController>(FoundHostStation->GetController());
+        if(Controller==nullptr)
+        {
+          return 1;
+        }
+      }
+    }
+    return 0;
+
+
 }

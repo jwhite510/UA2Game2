@@ -31,6 +31,10 @@ class UA2_API AMyAIController : public AAIController
 
         void AimAndFire(AActor* Target);
 
+        void MoveToActorAndStop(AActor* Target);
+
+        bool IsOwningHostStationPlayer();
+
 
 
 

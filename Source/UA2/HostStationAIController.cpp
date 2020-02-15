@@ -62,7 +62,7 @@ void AHostStationAIController::Tick(float DeltaTime)
       }
       else if(Elem.Value == VehicleStatus::Capturing)
       {
-        UE_LOG(LogTemp, Warning, TEXT("%s Capturing called"), *Elem.Key->GetName());
+        // UE_LOG(LogTemp, Warning, TEXT("%s Capturing called"), *Elem.Key->GetName());
         CaptureNearestTile(Elem.Key);
       }
 
@@ -72,9 +72,9 @@ void AHostStationAIController::Tick(float DeltaTime)
 
     // spawn units
     // UE_LOG(LogTemp, Warning, TEXT("HostStationEnergy %i"), ThisHostStation->HostStationEnergy);
-    if(ThisHostStation->HostStationEnergy > 10)
+    if(ThisHostStation->HostStationEnergy > ThisHostStation->TankUnitCost)
     {
-      SpawnTank();
+      // SpawnTank();
     }
 
 
@@ -154,7 +154,7 @@ void AHostStationAIController::SpawnTank()
 
   HitResult.Location.Z+=300;
   SpawnUnitsComponent->AISpawnThingAtLocation(HitResult.Location);
-  ThisHostStation->HostStationEnergy -= 10;
+  ThisHostStation->HostStationEnergy -= ThisHostStation->TankUnitCost;
 }
 void AHostStationAIController::OrderVehicleAttackNearestEnemy(ATankUnit* TankUnit)
 {
@@ -190,8 +190,24 @@ void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
       int32 TileTeam = Cast<ACapturableGridPoint>(_Actor)->GetTeam();
       if(TileTeam!=TankUnit->Team)
       {
-        ClosestDistance = Distance;
-        NearestTile = _Actor;
+
+        // check if there is a vehicle from this team already on the point
+        bool IsTeamMateOnpoint = 0;
+        for(auto& _Vehicle : Cast<ACapturableGridPoint>(_Actor)->VehiclesOnGridPoint)
+        {
+          if(_Vehicle->Team==TankUnit->Team && _Vehicle!=TankUnit)
+          {
+            // a team mate is already on this point
+            IsTeamMateOnpoint = 1;
+          }
+        }
+        if(!IsTeamMateOnpoint)
+        {
+          ClosestDistance = Distance;
+          NearestTile = _Actor;
+        }
+
+
       }
     }
 
@@ -210,11 +226,6 @@ void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
         1,// depth priority
         40 // thickness
         );
-    Cast<AMyAIController>(TankUnit->GetController())->MoveToActor(NearestTile, 100);
+    Cast<AMyAIController>(TankUnit->GetController())->MoveToActorAndStop(NearestTile);
   }
-
-
-
-
-
 }

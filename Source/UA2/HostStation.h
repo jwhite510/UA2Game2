@@ -71,4 +71,6 @@ public:
         UPROPERTY(EditDefaultsOnly, Category="Setup")
         TSubclassOf<AActor> ProjectileBluePrint;
 
+        int32 TankUnitCost = 50;
+
 };
