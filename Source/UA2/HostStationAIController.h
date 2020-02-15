@@ -16,7 +16,8 @@ enum VehicleStatus
   Idle UMETA(DisplayName = "Idle"),
   Stopped UMETA(DisplayName = "Stopped"),
   Moving UMETA(DisplayName = "Moving"),
-  Attacking UMETA(DisplayName = "Attacking")
+  Attacking UMETA(DisplayName = "Attacking"),
+  Capturing UMETA(DisplayName = "Capturing")
 };
 
 
@@ -44,4 +45,6 @@ class UA2_API AHostStationAIController : public AAIController
         TMap<ATankUnit*, VehicleStatus> VehicleStatusTMap;
 
         void OrderVehicleAttackNearestEnemy(ATankUnit* TankUnit);
+
+        void CaptureNearestTile(ATankUnit* TankUnit);
 };

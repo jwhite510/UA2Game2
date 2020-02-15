@@ -10,6 +10,8 @@
 #include "CanSpawnUnits.h"
 #include "MyAIController.h"
 #include "MoveToLocationMarker.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "CapturableGridPoint.h"
 
 void AHostStationAIController::Tick(float DeltaTime)
 {
@@ -47,16 +49,21 @@ void AHostStationAIController::Tick(float DeltaTime)
     for(auto& Elem : VehicleStatusTMap)
     {
       Elem.Key; // the ATankUnit that needs to be given a command
-      Elem.Value;
+      Elem.Value; // the enum
       // if the current status of the vehicle is idle
       if(Elem.Value == VehicleStatus::Idle)
       {
-        Elem.Value = VehicleStatus::Attacking;
+        Elem.Value = VehicleStatus::Capturing;
       }
       else if(Elem.Value == VehicleStatus::Attacking)
       {
         // UE_LOG(LogTemp, Warning, TEXT("Attacking called"));
         OrderVehicleAttackNearestEnemy(Elem.Key);
+      }
+      else if(Elem.Value == VehicleStatus::Capturing)
+      {
+        UE_LOG(LogTemp, Warning, TEXT("%s Capturing called"), *Elem.Key->GetName());
+        CaptureNearestTile(Elem.Key);
       }
 
     }
@@ -158,4 +165,50 @@ void AHostStationAIController::OrderVehicleAttackNearestEnemy(ATankUnit* TankUni
   Cast<AMyAIController>(TankUnit->GetController())->MoveToActor(NearestTarget, 100);
   // target nearest enemy
   // TankUnit->MoveToLocationComponent->CreateMoveMarker(NearestTarget->GetActorLocation());
+}
+void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
+{
+  UE_LOG(LogTemp, Warning, TEXT("%s CaptureNearestTile called"), *TankUnit->GetName());
+
+  // find the nearest tile
+  TArray<AActor*> ActorsFound;
+  UGameplayStatics::GetAllActorsOfClass(
+      GetWorld(),
+      ACapturableGridPoint::StaticClass(),
+      ActorsFound
+      );
+
+  float ClosestDistance = 999999999;
+  AActor* NearestTile = nullptr;
+  FVector ThisVehicleLoation = TankUnit->GetActorLocation();
+  for(auto& _Actor : ActorsFound){
+    FVector ThisTileLocation = _Actor->GetActorLocation();
+    float Distance = FVector::Dist(ThisTileLocation, ThisVehicleLoation);
+    if(Distance < ClosestDistance)
+    {
+      ClosestDistance = Distance;
+      NearestTile = _Actor;
+    }
+
+  }
+  // move to this tile
+  if(NearestTile!=nullptr)
+  {
+    DrawDebugLine(
+        GetWorld(),
+        NearestTile->GetActorLocation(),
+        NearestTile->GetActorLocation()+FVector(0,0,400),
+        // 100*(CurrentLocation+ForwardVec),
+        FColor(0,0,255), // color
+        true, //persitent
+        1.,// lifetime
+        1,// depth priority
+        20 // thickness
+        );
+  }
+
+
+
+
+
 }
