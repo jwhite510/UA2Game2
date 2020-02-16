@@ -71,6 +71,11 @@ void AProjectile::ProjectileHit(AActor* OtherActor, FVector Impluse)
     {
       UE_LOG(LogTemp, Warning, TEXT("Apply Damage to %s"), *VehicleToDamage->GetName());
       VehicleToDamage->HealthPercent -= 0.1;
+      if(VehicleToDamage->HealthPercent < 0)
+      {
+        UE_LOG(LogTemp, Warning, TEXT("Destroy %s"), *VehicleToDamage->GetName());
+        VehicleToDamage->Destroy();
+      }
     }
   }
 }

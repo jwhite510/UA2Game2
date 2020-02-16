@@ -48,22 +48,26 @@ void AHostStationAIController::Tick(float DeltaTime)
 
     for(auto& Elem : VehicleStatusTMap)
     {
-      Elem.Key; // the ATankUnit that needs to be given a command
-      Elem.Value; // the enum
-      // if the current status of the vehicle is idle
-      if(Elem.Value == VehicleStatus::Idle)
+      if(Elem.Key!=nullptr && !Elem.Key->IsActorBeingDestroyed()) // if the tank has not been destroyed
       {
-        Elem.Value = VehicleStatus::Capturing;
-      }
-      else if(Elem.Value == VehicleStatus::Attacking)
-      {
-        // UE_LOG(LogTemp, Warning, TEXT("Attacking called"));
-        OrderVehicleAttackNearestEnemy(Elem.Key);
-      }
-      else if(Elem.Value == VehicleStatus::Capturing)
-      {
-        // UE_LOG(LogTemp, Warning, TEXT("%s Capturing called"), *Elem.Key->GetName());
-        CaptureNearestTile(Elem.Key);
+
+        Elem.Key; // the ATankUnit that needs to be given a command
+        Elem.Value; // the enum
+        // if the current status of the vehicle is idle
+        if(Elem.Value == VehicleStatus::Idle)
+        {
+          Elem.Value = VehicleStatus::Capturing;
+        }
+        else if(Elem.Value == VehicleStatus::Attacking)
+        {
+          // UE_LOG(LogTemp, Warning, TEXT("Attacking called"));
+          OrderVehicleAttackNearestEnemy(Elem.Key);
+        }
+        else if(Elem.Value == VehicleStatus::Capturing)
+        {
+          UE_LOG(LogTemp, Warning, TEXT("%s Capturing called"), *Elem.Key->GetName());
+          CaptureNearestTile(Elem.Key);
+        }
       }
 
     }
@@ -74,7 +78,7 @@ void AHostStationAIController::Tick(float DeltaTime)
     // UE_LOG(LogTemp, Warning, TEXT("HostStationEnergy %i"), ThisHostStation->HostStationEnergy);
     if(ThisHostStation->HostStationEnergy > ThisHostStation->TankUnitCost)
     {
-      // SpawnTank();
+      SpawnTank();
     }
 
 
@@ -168,64 +172,70 @@ void AHostStationAIController::OrderVehicleAttackNearestEnemy(ATankUnit* TankUni
 }
 void AHostStationAIController::CaptureNearestTile(ATankUnit* TankUnit)
 {
-  // UE_LOG(LogTemp, Warning, TEXT("%s CaptureNearestTile called"), *TankUnit->GetName());
+  if(TankUnit!=nullptr)
+  {
+    // UE_LOG(LogTemp, Warning, TEXT("%s CaptureNearestTile called"), *TankUnit->GetName());
+    // find the nearest tile
+    TArray<AActor*> ActorsFound;
+    UGameplayStatics::GetAllActorsOfClass(
+        GetWorld(),
+        ACapturableGridPoint::StaticClass(),
+        ActorsFound
+        );
 
-  // find the nearest tile
-  TArray<AActor*> ActorsFound;
-  UGameplayStatics::GetAllActorsOfClass(
-      GetWorld(),
-      ACapturableGridPoint::StaticClass(),
-      ActorsFound
-      );
-
-  float ClosestDistance = 999999999;
-  AActor* NearestTile = nullptr;
-  FVector ThisVehicleLoation = TankUnit->GetActorLocation();
-  for(auto& _Actor : ActorsFound){
-    FVector ThisTileLocation = _Actor->GetActorLocation();
-    float Distance = FVector::Dist(ThisTileLocation, ThisVehicleLoation);
-    if(Distance < ClosestDistance)
-    {
-      // check if this tile belongs to the vehicle team
-      int32 TileTeam = Cast<ACapturableGridPoint>(_Actor)->GetTeam();
-      if(TileTeam!=TankUnit->Team)
+    float ClosestDistance = 999999999;
+    AActor* NearestTile = nullptr;
+    FVector ThisVehicleLoation = TankUnit->GetActorLocation();
+    for(auto& _Actor : ActorsFound){
+      FVector ThisTileLocation = _Actor->GetActorLocation();
+      float Distance = FVector::Dist(ThisTileLocation, ThisVehicleLoation);
+      if(Distance < ClosestDistance)
       {
-
-        // check if there is a vehicle from this team already on the point
-        bool IsTeamMateOnpoint = 0;
-        for(auto& _Vehicle : Cast<ACapturableGridPoint>(_Actor)->VehiclesOnGridPoint)
+        // check if this tile belongs to the vehicle team
+        int32 TileTeam = Cast<ACapturableGridPoint>(_Actor)->GetTeam();
+        if(TileTeam!=TankUnit->Team)
         {
-          if(_Vehicle->Team==TankUnit->Team && _Vehicle!=TankUnit)
+
+          // check if there is a vehicle from this team already on the point
+          bool IsTeamMateOnpoint = 0;
+          for(auto& _Vehicle : Cast<ACapturableGridPoint>(_Actor)->VehiclesOnGridPoint)
           {
-            // a team mate is already on this point
-            IsTeamMateOnpoint = 1;
+            if(_Vehicle->Team==TankUnit->Team && _Vehicle!=TankUnit)
+            {
+              // a team mate is already on this point
+              IsTeamMateOnpoint = 1;
+            }
           }
-        }
-        if(!IsTeamMateOnpoint)
-        {
-          ClosestDistance = Distance;
-          NearestTile = _Actor;
-        }
+          if(!IsTeamMateOnpoint)
+          {
+            ClosestDistance = Distance;
+            NearestTile = _Actor;
+          }
 
 
+        }
+      }
+
+    }
+    // move to this tile
+    if(NearestTile!=nullptr)
+    {
+      DrawDebugLine(
+          GetWorld(),
+          NearestTile->GetActorLocation(),
+          NearestTile->GetActorLocation()+FVector(0,0,400),
+          // 100*(CurrentLocation+ForwardVec),
+          FColor(255,0,0), // color
+          true, //persitent
+          1.,// lifetime
+          1,// depth priority
+          40 // thickness
+          );
+      if(TankUnit->GetController()!=nullptr)
+      {
+        Cast<AMyAIController>(TankUnit->GetController())->MoveToActorAndStop(NearestTile);
       }
     }
+  }
 
-  }
-  // move to this tile
-  if(NearestTile!=nullptr)
-  {
-    DrawDebugLine(
-        GetWorld(),
-        NearestTile->GetActorLocation(),
-        NearestTile->GetActorLocation()+FVector(0,0,400),
-        // 100*(CurrentLocation+ForwardVec),
-        FColor(255,0,0), // color
-        true, //persitent
-        1.,// lifetime
-        1,// depth priority
-        40 // thickness
-        );
-    Cast<AMyAIController>(TankUnit->GetController())->MoveToActorAndStop(NearestTile);
-  }
 }
