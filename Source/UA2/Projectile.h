@@ -40,5 +40,7 @@ public:
 
         bool FirstHit = 0;
 
+        int32 Team;
+
 
 };

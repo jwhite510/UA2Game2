@@ -159,7 +159,8 @@ void AMyAIController::AimAndFire(AActor* Target)
   float TimeNow = UKismetSystemLibrary::GetGameTimeInSeconds(GetWorld());
   if(TimeNow > (LastFireTime+3) && bHaveAimSolution && (DotProd>0.8))
   {
-    // ControllerPawn->TurretComponent->FireCannon();
+    int32 ThisTankTeam = Cast<ATankUnit>(GetPawn())->Team;
+    ControllerPawn->TurretComponent->FireCannon(ThisTankTeam);
     LastFireTime = TimeNow;
     // UE_LOG(LogTemp, Warning, TEXT("firing, dot:%f"), DotProd);
   }

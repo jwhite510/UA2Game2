@@ -2,6 +2,7 @@
 
 
 #include "TurretComponent.h"
+#include "Projectile.h"
 
 // Sets default values for this component's properties
 UTurretComponent::UTurretComponent()
@@ -32,7 +33,7 @@ void UTurretComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
-void UTurretComponent::FireCannon()
+void UTurretComponent::FireCannon(int32 ThisVehicleTeam)
 {
   FVector ForwardDirection = Barrel->GetUpVector();
   FVector WorldLocation = Barrel->GetComponentLocation();
@@ -42,6 +43,7 @@ void UTurretComponent::FireCannon()
       WorldLocation+(-150*ForwardDirection),
       FRotator(0,0,0)
       );
+  Cast<AProjectile>(Projectile)->Team = ThisVehicleTeam;
 
   UStaticMeshComponent* ProjectileMesh = Projectile->FindComponentByClass<UStaticMeshComponent>();
 

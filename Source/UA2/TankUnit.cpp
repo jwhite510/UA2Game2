@@ -213,7 +213,7 @@ void ATankUnit::HandleLeftMouseClick()
   }
   else
   {
-    TurretComponent->FireCannon();
+    TurretComponent->FireCannon(this->Team);
   }
 
 }

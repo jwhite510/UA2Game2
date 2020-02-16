@@ -29,7 +29,7 @@ public:
         UStaticMeshComponent* TurretBase = nullptr;
         UStaticMeshComponent* Barrel = nullptr;
 
-        void FireCannon();
+        void FireCannon(int32 ThisVehicleTeam);
 
         float AimTowards(FVector AimHere);
 
