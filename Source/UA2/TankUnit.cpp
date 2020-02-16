@@ -11,6 +11,7 @@
 #include "MovementWaypoint.h"
 #include "UA2navcomponent_ground_vehicle.h"
 #include "TurretComponent.h"
+#include "FloatingVehicleWidgetC.h"
 
 // Sets default values
 ATankUnit::ATankUnit()

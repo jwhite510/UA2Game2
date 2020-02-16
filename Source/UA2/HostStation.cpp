@@ -12,6 +12,7 @@
 #include "TurretComponent.h"
 #include "HostStationAIController.h"
 #include "MyAIController.h"
+#include "FloatingVehicleWidgetC.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetInputLibrary.h"
 // #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 

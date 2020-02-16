@@ -19,7 +19,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
   Super::BeginPlay();
-  UE_LOG(LogTemp, Warning, TEXT("Projectile Created"));
+  // UE_LOG(LogTemp, Warning, TEXT("Projectile Created"));
 
 }
 
@@ -57,7 +57,6 @@ void AProjectile::ProjectileHit(AActor* OtherActor, FVector Impluse)
       if(Cast<AVehicleBase>(OtherActor)->Team != this->Team)
       {
         VehicleToDamage = Cast<AVehicleBase>(OtherActor);
-        UE_LOG(LogTemp, Warning, TEXT("Apply Damage to %s"), *Cast<AVehicleBase>(OtherActor)->GetName());
       }
     }
     // check if it has a parent
@@ -66,8 +65,12 @@ void AProjectile::ProjectileHit(AActor* OtherActor, FVector Impluse)
       if(Cast<AVehicleBase>(OtherActor->GetParentActor())->Team != this->Team)
       {
         VehicleToDamage = Cast<AVehicleBase>(OtherActor->GetParentActor());
-        UE_LOG(LogTemp, Warning, TEXT("Apply Damage to %s"), *Cast<AVehicleBase>(OtherActor->GetParentActor())->GetName());
       }
+    }
+    if(VehicleToDamage!=nullptr)
+    {
+      UE_LOG(LogTemp, Warning, TEXT("Apply Damage to %s"), *VehicleToDamage->GetName());
+      VehicleToDamage->HealthPercent -= 0.1;
     }
   }
 }

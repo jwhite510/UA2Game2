@@ -3,6 +3,7 @@
 
 #include "VehicleBase.h"
 #include "MyAIController.h"
+#include "FloatingVehicleWidgetC.h"
 
 // Sets default values
 AVehicleBase::AVehicleBase()
@@ -23,6 +24,11 @@ void AVehicleBase::BeginPlay()
 void AVehicleBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+        // set health
+        if(FloatingVehicleWidget!=nullptr)
+        {
+          FloatingVehicleWidget->HealthBarPercent = HealthPercent;
+        }
 
 }
 void AVehicleBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

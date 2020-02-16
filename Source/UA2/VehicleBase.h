@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "VehicleBase.generated.h"
 
+
+class UFloatingVehicleWidgetC;
 class AAIController;
 
 UCLASS()
@@ -45,5 +47,10 @@ public:
 
         UFUNCTION(BluePrintCallable, Category="Team")
         int32 GetTeam();
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Something")
+        UFloatingVehicleWidgetC* FloatingVehicleWidget = nullptr;
+
+        float HealthPercent = 1.0;
 
 };
